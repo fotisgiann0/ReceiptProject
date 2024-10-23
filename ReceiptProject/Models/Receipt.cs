@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace ReceiptProject.Models;
 
@@ -21,6 +22,7 @@ public partial class Receipt
 
     public string? PaymentType { get; set; }
 
+    [JsonIgnore]
     public virtual Employee? Emp { get; set; }
 
     public virtual ICollection<ReceiptLine> ReceiptLines { get; set; } = new List<ReceiptLine>();

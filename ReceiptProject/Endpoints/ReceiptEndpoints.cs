@@ -23,26 +23,27 @@ namespace ReceiptProject.Endpoints
                 .Produces<IEnumerable<CashRegister>>(200).WithTags("Register");
 
             app.MapGet("receipts", GetOrderLinesAsync)
-                 .Produces<IEnumerable<Receipt>>(200).WithTags("Receipt");
+                 .Produces<IEnumerable<Receipt>>(200)
+                 .Produces(404).WithTags("Receipt");
 
-            app.MapGet("receipt/{id}", GetBasedOnOrder)
+            app.MapGet("receipts/{id}", GetBasedOnOrder)
                 .WithName("GetReceipt")
                 .Produces<Receipt>(200)
                 .Produces(404).WithTags("Receipt");
 
-            app.MapGet("receipt/{id}/receipt_lines", GetLineBasedOnOrder)
+            app.MapGet("receipts/{id}/lines", GetLineBasedOnOrder)
                .WithName("GetReceiptLines")
                .Produces<ReceiptLine>(200)
                .Produces(404).WithTags("Receipt");
 
 
-            app.MapPost("receipt", AddAnOrderTesting)
+            app.MapPost("receipts", AddAnOrderTesting)
                 .WithName("CreateReceipt")
                 .Accepts<InsertReceipt>("application/json")
                 .Produces<Receipt>(201)
-                .Produces<IEnumerable<ValidationFailure>>(400).WithTags("Receipt");
+                .Produces(400).WithTags("Receipt");
 
-            app.MapDelete("receipt/{id}", DeleteReceipt)
+            app.MapDelete("receipts/{id}", DeleteReceipt)
                .WithName("DeleteReceipt")
                .Produces(204)
                .Produces(404).WithTags("Receipt");
@@ -71,6 +72,10 @@ namespace ReceiptProject.Endpoints
             var result = await context.Receipts
                 .Include(p => p.ReceiptLines).ToListAsync();
 
+            if (result is null)
+            {
+                return Results.NotFound();
+            }
 
             return Results.Ok(result);
 
@@ -79,12 +84,16 @@ namespace ReceiptProject.Endpoints
         internal static async Task<IResult> GetRegister(
            ReceiptDbContext context)
         {
-            return Results.Ok( await context.CashRegisters.ToListAsync());
-        }
+            var result = await context.CashRegisters.ToListAsync();
+            if(result is null)
+            {
+                return Results.NotFound();
+            }
 
         
-       
-       
+            return Results.Ok(result);
+        }
+
         internal static async Task<IResult> GetBasedOnOrder(
              ReceiptDbContext context, int id)
         {
@@ -97,9 +106,7 @@ namespace ReceiptProject.Endpoints
 
             var result = await context.Receipts
                 .Include(p => p.ReceiptLines).Where(p => p.OrderId == id).ToListAsync();
-
-
-            //var result = await context.results.FindAsync(id);
+                       
             return Results.Ok(result);
 
         }
@@ -107,18 +114,23 @@ namespace ReceiptProject.Endpoints
         internal static async Task<IResult> GetLineBasedOnOrder(
              ReceiptDbContext context, int id)
         {
+            var rec = await context.Receipts.FindAsync(id);
+
+            if (rec is null)
+            {
+                return Results.NotFound();
+            }
 
             var result = await context.ReceiptLines
                 .Include(p => p.Product).Where(p => p.OrderId == id).ToListAsync();
 
 
             //var result = await context.results.FindAsync(id);
-            return result is not null ? Results.Ok(result) : Results.NotFound();
+            return Results.Ok(result);
 
         }
 
 
-       
         internal static async Task<IResult> AddAnOrderTesting(
             ReceiptDbContext context, InsertReceipt order)
         {
@@ -163,7 +175,7 @@ namespace ReceiptProject.Endpoints
             await context.SaveChangesAsync();
 
 
-            return Results.Created("receipt",receipt);
+            return Results.Created("CreateReceipt", receipt);
 
         }
         internal static async Task<IResult> DeleteReceipt(
@@ -173,10 +185,7 @@ namespace ReceiptProject.Endpoints
 
             if (forDel is null)
                 return Results.NotFound();
-            foreach (ReceiptLine rec_line in forDel.ReceiptLines)
-            {
-                context.ReceiptLines.Remove(rec_line);  
-            }
+           
 
             context.Receipts.Remove(forDel);
 

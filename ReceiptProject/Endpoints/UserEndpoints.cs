@@ -15,30 +15,31 @@ namespace ReceiptProject.Endpoints
         public static void DefineEndpoints(IEndpointRouteBuilder app)
         {
             app.MapGet("users", GetUsers)
-                .Produces<IEnumerable<Employee>>(200).WithTags("User");
+                .Produces<IEnumerable<Employee>>(200)
+                .Produces(404).WithTags("User");
 
-            app.MapGet("user/{id}", GetUserById)
+            app.MapGet("users/{id}", GetUserById)
                 .WithName("GetUser")
                 .Produces<Employee>(200)
                 .Produces(404).WithTags("User");
 
-            app.MapGet("order_by_user/{id}", GetReceiptByUser)
+            app.MapGet("users/{id}/orders", GetReceiptByUser)
                  .WithName("GetOrderByUser")
                 .Produces<IEnumerable<Receipt>>(200)
                 .Produces(404).WithTags("User");
 
-            app.MapPost("user", AddUser)
+            app.MapPost("users", AddUser)
                 .WithName("CreateUser")
                 .Accepts<Employee>("application/json")
                 .Produces<Employee>(201)
-                .Produces<IEnumerable<ValidationFailure>>(400).WithTags("User");
+                .Produces(400).WithTags("User");
 
-            app.MapDelete("user/{id}", DeleteUser)
+            app.MapDelete("users/{id}", DeleteUser)
                 .WithName("DeletedUser")
                 .Produces(204)
                 .Produces(404).WithTags("User");
 
-            app.MapPut("user/{id}", AlterUser)
+            app.MapPut("users/{id}", AlterUser)
                 .WithName("UpdateUser")
                 .Accepts<Employee>("application/json")
                 .Produces<Employee>(201)
@@ -49,6 +50,8 @@ namespace ReceiptProject.Endpoints
             ReceiptDbContext context)
         {
             var result = await context.Employees.ToListAsync();
+            if (result is null)
+                return Results.NotFound();
             return Results.Ok(result);
         }
         internal static async Task<IResult> GetUserById(
@@ -61,11 +64,17 @@ namespace ReceiptProject.Endpoints
         internal static async Task<IResult> GetReceiptByUser(
             ReceiptDbContext context, int id)
         {
+            var result = await context.Employees.FindAsync(id);
+
+            if (result is null)
+            {
+                return Results.NotFound();
+            }
             var filteredTitles = await context.Receipts
                    .Where(rec => rec.EmpId == id)
                    .ToListAsync();
 
-            return filteredTitles is not null ?  Results.Ok(filteredTitles) : Results.NotFound();
+            return  Results.Ok(filteredTitles);
         }
         internal static async Task<IResult> AddUser(
             ReceiptDbContext context, Employee user)
@@ -106,7 +115,7 @@ namespace ReceiptProject.Endpoints
             
             await context.SaveChangesAsync();
 
-            return Results.Ok(forUpd);
+            return Results.CreatedAtRoute("UpdateUser", forUpd);
 
         }
     }

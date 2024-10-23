@@ -16,42 +16,44 @@ namespace ReceiptProject.Endpoints
         public static void DefineEndpoints(IEndpointRouteBuilder app)
         {
             app.MapGet("products", GetProducts)
-                .Produces<IEnumerable<Product>>(200).WithTags("Product");
+                .Produces<IEnumerable<Product>>(200)
+                .Produces(404).WithTags("Product");
 
-            app.MapGet("product/{id}", GetProductById)
+            app.MapGet("products/{id}", GetProductById)
                 .WithName("GetProduct")
                 .Produces<Product>(200)
                 .Produces(404).WithTags("Product");
 
-            app.MapGet("product/{id}/receipt_lines", GetReceiptLineByProduct)
+            app.MapGet("products/{id}/lines", GetReceiptLineByProduct)
                 .Produces<IEnumerable<ReceiptLine>>(200)
                 .Produces(404)
                 .WithTags("Product");
 
-            app.MapPut("product/{id}/{inv}/inventory", AddInventory)
+            app.MapPut("products/{id}/inventory/{items}", AddInventory)
                 .WithName("AddInventory")
                 .Produces<Product>(201)
-                .Produces<IEnumerable<ValidationFailure>>(400).WithTags("Product");
+                .Produces(404)
+                .Produces(422).WithTags("Product");
 
-            app.MapPost("product", AddProduct)
+            app.MapPost("products", AddProduct)
                 .WithName("CreateProduct")
                 .Accepts<Product>("application/json")
-                .Produces<Product>(201)
-                .Produces<IEnumerable<ValidationFailure>>(400).WithTags("Product");
+                .Produces<Product>(201)              
+                .Produces(400).WithTags("Product");
 
-            app.MapPut("product/{id}", AlterProduct)
+            app.MapPut("products/{id}", AlterProduct)
                 .WithName("UpdateProduct")
                 .Accepts<Product>("application/json")
-                .Produces<Product>(200)
+                .Produces<Product>(201)
                 .Produces(404).WithTags("Product");
 
-            app.MapPut("product_deleted/{id}", DeletedProduct)
+            app.MapPut("products/{id}/deleted", DeletedProduct)
               .WithName("DeletedProduct")
               .Accepts<Product>("application/json")
               .Produces<Product>(201)
               .Produces(404).WithTags("Product");
 
-            app.MapDelete("product/{id}", DeleteProduct)
+            app.MapDelete("products/{id}", DeleteProduct)
                .WithName("DeleteProduct")
                .Produces(204)
                .Produces(404).WithTags("Product");
@@ -76,6 +78,11 @@ namespace ReceiptProject.Endpoints
         internal static async Task<IResult> GetReceiptLineByProduct(
              ReceiptDbContext context, int id)
         {
+            var result = await context.Products.FindAsync(id);
+            if(result is null)
+            {
+                return Results.NotFound();
+            }
             var filteredTitles = await context.ReceiptLines
                    .Where(rec => rec.ProductId == id)
                    .ToListAsync();
@@ -112,25 +119,27 @@ namespace ReceiptProject.Endpoints
 
         }
         internal static async Task<IResult> AddInventory(
-          ReceiptDbContext context, int id, int inv)
+          ReceiptDbContext context, int id, int items)
         {
             var forUpd = await context.Products.FindAsync(id);
 
             if (forUpd is null)
                 return Results.NotFound();
 
+            if(items <= 0)
+            {
+                return Results.BadRequest(422);
+            }
+         
+            forUpd.Inventory = forUpd.Inventory + items;
            
-            forUpd.Inventory = forUpd.Inventory + inv;
-           
-
-
             await context.SaveChangesAsync();
 
             return Results.Created("AddInventory", forUpd);
 
         }
         internal static async Task<IResult> DeletedProduct(
-      ReceiptDbContext context, int id, Product prod)
+      ReceiptDbContext context, int id)
         {
             var forUpd = await context.Products.FindAsync(id);
 
