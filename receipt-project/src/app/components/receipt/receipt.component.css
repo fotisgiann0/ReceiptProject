@@ -1,0 +1,17 @@
+form{
+    display: block;
+}
+
+ul {
+    list-style: none;
+    
+}
+.list-container {
+    display: grid;
+}
+.listing-li {
+    
+    border: 5px solid;
+    width: 50%;
+    padding: 10px;
+}

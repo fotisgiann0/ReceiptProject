@@ -1,13 +1,12 @@
 <main class="main">
-  <div class="content">
-  <p>This works</p>
-  <app-comp-header/>
-  <app-comp-menu />
-  <app-comp-footer/>
+  <div class="container">
+    <app-comp-header class="header"/>
+    <div class="main-layout">
+      <app-comp-menu  class="menu"/>
+      <div class="content">
+        <router-outlet />
+      </div>
+    </div>
+    <app-comp-footer class="footer"/>
   </div>
 </main>
-
-
-
-
-<router-outlet />

@@ -1,0 +1,32 @@
+<article>
+    <h1>Cash Register</h1>
+    <form name="receiptForm" [formGroup]="receiptForm" (ngSubmit)="handleFormSubmit()">
+        <div>
+            <input type="text" id="id" formControlName="user_id" placeholder="User Id"/>
+        </div>
+        <div>
+            <input type="text" id="body" formControlName="body" placeholder="Input"/>
+        </div>
+        <div>
+            <input type="text" id="price" formControlName="price" placeholder="Price"/>
+        </div>
+        <div>
+            <input type="text" id="quantity" formControlName="quantity" placeholder="Quantity"/>
+        </div>
+        
+        <button type="submit">Προσθήκη</button>
+        <button type="submit" (click)="handleReset()">Καθαρισμός</button>
+    </form>
+    @if(paidTotal > 0){
+        <div class="paid">
+            <h1>Πληρωτέο: {{paidTotal}}</h1>
+        </div>
+    }
+    <section class="list-container">
+        <ul>
+            @for(listingEntry of formsList; track listingEntry.price) {
+                <li class="listing-li"><app-listing-input [listing_body]="listingEntry" [formsList]="formsList"/></li>
+            }
+        </ul>
+    </section>
+</article>
