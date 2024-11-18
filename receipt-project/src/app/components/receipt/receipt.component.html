@@ -5,7 +5,7 @@
             <input type="text" id="id" formControlName="user_id" placeholder="User Id"/>
         </div>
         <div>
-            <input type="text" id="body" formControlName="body" placeholder="Input"/>
+            <input type="text" id="body" formControlName="body" placeholder="Input" />
         </div>
         <div>
             <input type="text" id="price" formControlName="price" placeholder="Price"/>
@@ -17,14 +17,18 @@
         <button type="submit">Προσθήκη</button>
         <button type="submit" (click)="handleReset()">Καθαρισμός</button>
     </form>
+    @if(!this.isFormValid){
+<div>Form is Invalid</div>
+    }
     @if(paidTotal > 0){
         <div class="paid">
             <h1>Πληρωτέο: {{paidTotal}}</h1>
+            <app-popup [itemList]="formsList"></app-popup>
         </div>
     }
     <section class="list-container">
         <ul>
-            @for(listingEntry of formsList; track listingEntry.price) {
+            @for(listingEntry of formsList; track listingEntry.id) {
                 <li class="listing-li"><app-listing-input [listing_body]="listingEntry" [formsList]="formsList"/></li>
             }
         </ul>

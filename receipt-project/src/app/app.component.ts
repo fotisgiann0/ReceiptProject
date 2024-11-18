@@ -5,11 +5,12 @@ import { CompHeaderComponent } from './components/comp-header/comp-header.compon
 import { CompMenuComponent } from './components/comp-menu/comp-menu.component';
 import { ReceiptComponent } from './components/receipt/receipt.component';
 import { ListingInputComponent } from './components/listing-input/listing-input.component';
+import { PopupComponent } from './components/popup/popup.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CompFooterComponent, CompHeaderComponent, CompMenuComponent, ReceiptComponent, ListingInputComponent],
+  imports: [RouterOutlet, CompFooterComponent, CompHeaderComponent, CompMenuComponent, ReceiptComponent, ListingInputComponent, PopupComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
