@@ -44,9 +44,9 @@ export class ReceiptComponent {
         user_id: Number(this.receiptForm.value.user_id),
         id: this.identity++,
         body: this.receiptForm.value.body || '',
-        price:  Number(this.receiptForm.value.price) || -1,
-        quantity: Number(this.receiptForm.value.quantity) || -1,
-        total: Number(this.receiptForm.value.amount) || -1,
+        price:  Number(this.receiptForm.value.price) ,
+        quantity: Number(this.receiptForm.value.quantity) ,
+        total: Number(this.receiptForm.value.amount) ,
       };
       
       let total_price = registerObjectFromForm.price * registerObjectFromForm.quantity;
@@ -69,12 +69,16 @@ export class ReceiptComponent {
   handleReset() {
     while(this.formsList.length > 0)
       this.formsList.pop();
+    this.updateTotal();
     }
 
   updateTotal() {
     let sumOfEntry = 0
     for(let entry of this.formsList) {
-      sumOfEntry += entry.total
+      if(this.formsList.length !== 0) {
+        sumOfEntry += entry.total
+      }
+      
     }
     this.paidTotal =  sumOfEntry
   }

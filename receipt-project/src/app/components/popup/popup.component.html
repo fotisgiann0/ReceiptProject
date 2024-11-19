@@ -13,7 +13,7 @@
         </div>
         <div class="modal-body">
           <ul>
-            @for(listingEntry of itemList; track listingEntry.price) {
+            @for(listingEntry of itemList; track listingEntry.id) {
                 <li class="listing-li"><app-listing-input [listing_body]="listingEntry" [formsList]="itemList"/></li>
             }
         </ul>
@@ -21,7 +21,7 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="handleReset()">Έκδοση</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Επιστροφή</button>
-          <button type="button" class="btn btn-primary" (click)="handleReset()">Ακύρωση</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="handleReset()">Ακύρωση</button>
         </div>
       </div>
     </div>
