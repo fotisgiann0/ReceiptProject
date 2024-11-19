@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { registerObject } from '../../cashRegisterObject';
 import { ListingInputComponent } from "../listing-input/listing-input.component";
 
@@ -14,8 +14,13 @@ export class PopupComponent {
     required: true,
   }) itemList!: registerObject[]; //isws me = []
 
+  @Input() paid_Total!: number;
+  @Output() paid_TotalChange = new EventEmitter<number>();
+  
   handleReset() {
     while(this.itemList.length > 0)
       this.itemList.pop();
+    this.paid_Total= 0;
+    this.paid_TotalChange.emit(this.paid_Total);
   }
 }
