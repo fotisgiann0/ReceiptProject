@@ -21,9 +21,11 @@
         <div>Form is Invalid</div>
     }
     @if(paidTotal > 0){
-        <div class="paid">
-            <h1>Πληρωτέο: {{paidTotal}}</h1>
-            <app-popup [itemList]="formsList"></app-popup>
+        <div>
+            <div class="paid">
+                <h1 id="paid_total">Πληρωτέο: {{paidTotal}}</h1>
+            </div>
+            <app-popup [itemList]="formsList" [(paid_Total)]="paidTotal"></app-popup>
         </div>
     }
     <section class="list-container">
