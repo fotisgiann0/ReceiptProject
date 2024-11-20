@@ -16,7 +16,7 @@
                 <td>{{listingEntry.price}}</td>
                 <td>{{listingEntry.quantity}}</td>
                 <td>{{listingEntry.total}}</td>
-                <td><button (click)="deleteRow(listingEntry.id)">Αφαίρεση</button></td>
+                <td *ngIf="this.buttonFLag"><button (click)="deleteRow(listingEntry.id)">Αφαίρεση</button></td>
             </tr>
         
         </tbody>

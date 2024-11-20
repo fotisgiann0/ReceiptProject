@@ -14,8 +14,13 @@ import { CommonModule } from '@angular/common';
 })
 export class ReceiptComponent {
 
+  formatter = new Intl.NumberFormat('default', {
+    style: 'currency',
+    currency: 'EUR',
+  });
+
   receiptForm = new FormGroup({
-    user_id: new FormControl('', Validators.required),
+    user_id: new FormControl('', [Validators.required, Validators.pattern('[0-9]')]),
     body: new FormControl('',[Validators.pattern('[a-zA-Z ]*') ,Validators.required]),
     price: new FormControl('',[
       Validators.pattern(/^\d+(\.\d{1,2})?$/), 
@@ -38,7 +43,7 @@ export class ReceiptComponent {
   
   handleFormSubmit() {
     if (!this.receiptForm.valid) {
-      this.isFormValid = false;
+      
     } else {
       this.isFormValid = true;
 
@@ -78,8 +83,10 @@ export class ReceiptComponent {
 
     while(this.formsList.length > 0)
       this.formsList.pop();
-      this.updateTotal();
-    }
+    this.updateTotal();
+
+    this.isFormValid = true;
+  }
 
   updateTotal() {
     let sumOfEntry = 0

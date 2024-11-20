@@ -18,6 +18,10 @@ export class ListingInputComponent{
 
   @Input({
     required: true,
+  }) buttonFLag: boolean =true;
+
+  @Input({
+    required: true,
   }) formsList!: registerObject[];
 
   @Input() paid_Total!: number;

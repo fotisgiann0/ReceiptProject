@@ -8,7 +8,9 @@
                 <div *ngIf="receiptForm.get('user_id')?.hasError('required')" style="color:red;">
                     User ID is required.
                 </div>
-
+                <div *ngIf="receiptForm.get('user_id')?.hasError('pattern')" style="color:red;">
+                    User ID format is invalid.
+                </div>
             </div>
         </div>
         <div>
@@ -51,22 +53,22 @@
             
         </div>
         
-        <button type="submit">Προσθήκη:</button>
+        <button type="submit" [disabled]="this.receiptForm.invalid">Προσθήκη:</button>
         <button type="submit" (click)="handleReset()">Καθαρισμός</button>
     </form>
-    @if(!this.isFormValid){
-        <div>Form is Invalid</div>
+    @if(this.isFormValid === false){
+        <p>Form is Invalid</p>
     }
     @if(paidTotal > 0){
         <div>
             <div class="paid">
-                <h1 id="paid_total">Πληρωτέο: {{paidTotal}}</h1>
+                <h1 id="paid_total">Πληρωτέο: {{formatter.format(paidTotal)}}</h1>
             </div>
             <app-popup [itemList]="formsList" [(paid_total)]="paidTotal"></app-popup>
         </div>
     }
     <section class="list-container">
-        <app-listing-input [formsList]="formsList" [(paid_Total)]="paidTotal"/>
+        <app-listing-input [formsList]="formsList" [(paid_Total)]="paidTotal" [buttonFLag]="true"/>
         <!-- <table>
             <thead>
                 <tr>

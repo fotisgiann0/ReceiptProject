@@ -9,16 +9,19 @@ import { ListingInputComponent } from "../listing-input/listing-input.component"
   templateUrl: './popup.component.html',
   styleUrl: './popup.component.css'
 })
-export class PopupComponent implements OnInit {
-  ngOnInit(): void {
+export class PopupComponent {
 
-  }
   @Input({
     required: true,
   }) itemList!: registerObject[]; //isws me = []
 
   @Input() paid_total!: number;
 
+  formatter = new Intl.NumberFormat('default', {
+    style: 'currency',
+    currency: 'EUR',
+  });
+  
   @Output() paid_totalChange = new EventEmitter<number>();
   
   handleReset() {
