@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { registerObject } from '../../cashRegisterObject';
 import { ListingInputComponent } from "../listing-input/listing-input.component";
 
@@ -9,18 +9,22 @@ import { ListingInputComponent } from "../listing-input/listing-input.component"
   templateUrl: './popup.component.html',
   styleUrl: './popup.component.css'
 })
-export class PopupComponent {
+export class PopupComponent implements OnInit {
+  ngOnInit(): void {
+
+  }
   @Input({
     required: true,
   }) itemList!: registerObject[]; //isws me = []
 
-  @Input() paid_Total!: number;
-  @Output() paid_TotalChange = new EventEmitter<number>();
+  @Input() paid_total!: number;
+
+  @Output() paid_totalChange = new EventEmitter<number>();
   
   handleReset() {
     while(this.itemList.length > 0)
       this.itemList.pop();
-    this.paid_Total= 0;
-    this.paid_TotalChange.emit(this.paid_Total);
+    this.paid_total= 0;
+    this.paid_totalChange.emit(this.paid_total);
   }
 }

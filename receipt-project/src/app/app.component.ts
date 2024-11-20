@@ -10,7 +10,7 @@ import { PopupComponent } from './components/popup/popup.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CompFooterComponent, CompHeaderComponent, CompMenuComponent, ReceiptComponent, ListingInputComponent, PopupComponent],
+  imports: [RouterOutlet, CompFooterComponent, CompHeaderComponent, CompMenuComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

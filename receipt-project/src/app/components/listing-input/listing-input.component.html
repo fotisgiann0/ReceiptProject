@@ -1,31 +1,24 @@
-<table>
-    <thead>
-        <tr>
-            <th>
-                User Id
-            </th>
-            <th>
-                Product
-            </th>
-            <th>
-                Price
-            </th>
-            <th>
-                Quantity
-            </th>
-            <th>
-                Total
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>{{listing_body.user_id}}</td>
-            <td>{{listing_body.body}}</td>
-            <td>{{listing_body.price}}</td>
-            <td>{{listing_body.quantity}}</td>
-            <td>{{listing_body.total}}</td>
-            <td><button (click)="deleteRow(listing_body.id)">Αφαίρεση</button></td>
-        </tr>
-    </tbody>
-</table>
+@if(paid_Total > 0) {
+    <table>
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Body</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+              </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let listingEntry of formsList; let i = index;">
+                <td>{{listingEntry.user_id}}</td>
+                <td>{{listingEntry.body}}</td>
+                <td>{{listingEntry.price}}</td>
+                <td>{{listingEntry.quantity}}</td>
+                <td>{{listingEntry.total}}</td>
+                <td><button (click)="deleteRow(listingEntry.id)">Αφαίρεση</button></td>
+            </tr>
+        
+        </tbody>
+    </table>
+}

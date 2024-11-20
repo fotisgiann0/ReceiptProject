@@ -2,19 +2,56 @@
     <h1>Cash Register</h1>
     <form name="receiptForm" [formGroup]="receiptForm" (ngSubmit)="handleFormSubmit()">
         <div>
+            <label for="user_id"> User ID:</label>
             <input type="text" id="id" formControlName="user_id" placeholder="User Id"/>
+            <div *ngIf="receiptForm.get('user_id')?.invalid && (receiptForm.get('user_id')?.dirty || receiptForm.get('user_id')?.touched)">
+                <div *ngIf="receiptForm.get('user_id')?.hasError('required')" style="color:red;">
+                    User ID is required.
+                </div>
+
+            </div>
         </div>
         <div>
+            <label for="body"> Body:</label>
             <input type="text" id="body" formControlName="body" placeholder="Input" />
+            <div *ngIf="receiptForm.get('body')?.invalid && (receiptForm.get('body')?.dirty || receiptForm.get('body')?.touched)">
+                <div *ngIf="receiptForm.get('body')?.hasError('required')" style="color:red;">
+                    Product is required.
+                </div> 
+            </div>
         </div>
         <div>
+            <label>
+                Price:
             <input type="text" id="price" formControlName="price" placeholder="Price"/>
+            <div *ngIf="receiptForm.get('price')?.invalid && (receiptForm.get('price')?.dirty || receiptForm.get('price')?.touched)">
+                <div *ngIf="receiptForm.get('price')?.hasError('required')" style="color:red;">
+                    Price is required.
+                </div>
+                <div *ngIf="receiptForm.get('price')?.hasError('pattern')" style="color:red;">
+                    Price format is invalid.
+                </div>
+
+            </div>
+            
+        </label>
         </div>
         <div>
+            <label for="quantity">Quantity:</label>
             <input type="text" id="quantity" formControlName="quantity" placeholder="Quantity"/>
+            <div *ngIf="receiptForm.get('quantity')?.invalid && (receiptForm.get('quantity')?.dirty || receiptForm.get('quantity')?.touched)">
+                <div *ngIf="receiptForm.get('quantity')?.hasError('required')" style="color:red;">
+                    Quantity is required.
+                </div>
+                <div *ngIf="receiptForm.get('quantity')?.hasError('pattern')" style="color:red;">
+                    Quantity format is invalid.
+                </div>
+
+            </div>
+            
         </div>
         
-        <button type="submit">Προσθήκη</button>
+        <button type="submit">Προσθήκη:</button>
         <button type="submit" (click)="handleReset()">Καθαρισμός</button>
     </form>
     @if(!this.isFormValid){
@@ -25,14 +62,41 @@
             <div class="paid">
                 <h1 id="paid_total">Πληρωτέο: {{paidTotal}}</h1>
             </div>
-            <app-popup [itemList]="formsList" [(paid_Total)]="paidTotal"></app-popup>
+            <app-popup [itemList]="formsList" [(paid_total)]="paidTotal"></app-popup>
         </div>
     }
     <section class="list-container">
-        <ul>
+        <app-listing-input [formsList]="formsList" [(paid_Total)]="paidTotal"/>
+        <!-- <table>
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Body</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                  </tr>
+            </thead>
+            <tbody>
+              
             @for(listingEntry of formsList; track listingEntry.id) {
-                <li class="listing-li"><app-listing-input [listing_body]="listingEntry" [formsList]="formsList"/></li>
-            }
-        </ul>
+                <tr *ngFor="let listingEntry of formsList; let i = index;">
+                    <td>{{listingEntry.user_id}}</td>
+                    <td>{{listingEntry.body}}</td>
+                    <td>{{listingEntry.price}}</td>
+                    <td>{{listingEntry.quantity}}</td>
+                    <td>{{listingEntry.total}}</td>
+                    <td><button (click)="tdeleteRow(listingEntry.id)">Αφαίρεση</button></td> 
+                    <app-listing-input [listing_body]="listingEntry" [formsList]="formsList" [(paid_Total)]="paidTotal"/>
+                </tr>
+            } 
+       
+            </tbody>
+        </table>
+        
+        <li class="listing-li"><app-listing-input [listing_body]="listingEntry" [formsList]="formsList" [(paid_Total)]="paidTotal"/></li>
+            
+            <ul>
+            </ul> --> 
     </section>
 </article>
