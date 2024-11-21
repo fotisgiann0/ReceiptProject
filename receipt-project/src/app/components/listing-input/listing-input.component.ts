@@ -29,11 +29,11 @@ export class ListingInputComponent{
   @Output() paid_TotalChange = new EventEmitter<number>();
 
   deleteRow(i: number){
-    let index = this.formsList.findIndex(item => item.id === i);
+    let index = this.formsList.findIndex(item => item.product_id === i);
     this.formsList.splice(index,1);
     let sumEntries = 0;
     for(let entry of this.formsList) {
-      sumEntries += entry.total
+      sumEntries += entry.total!
     }
     this.paid_Total= sumEntries;
     this.paid_TotalChange.emit(this.paid_Total);

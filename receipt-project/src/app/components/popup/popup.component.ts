@@ -22,6 +22,8 @@ export class PopupComponent {
     currency: 'EUR',
   });
   
+  @Output() itemList_emmitter = new EventEmitter<registerObject[]>();
+
   @Output() paid_totalChange = new EventEmitter<number>();
   
   handleReset() {
@@ -29,5 +31,9 @@ export class PopupComponent {
       this.itemList.pop();
     this.paid_total= 0;
     this.paid_totalChange.emit(this.paid_total);
+  }
+
+  emitItemList() {
+    this.itemList_emmitter.emit(this.itemList);
   }
 }

@@ -1,10 +1,10 @@
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal1">
     Έκδοση Απόδειξης
   </button>
-  
+ 
   <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -14,14 +14,9 @@
         <div class="modal-body">
           <h1 class="modal-title fs-5" id="paid_total_h1">Πληρωτέο: {{formatter.format(paid_total)}}</h1>
           <app-listing-input [formsList]="itemList" [(paid_Total)] ="paid_total"  [buttonFLag]="false"/>
-          <!-- <ul>
-            @for(listingEntry of itemList; track listingEntry.id) {
-                <li class="listing-li"><app-listing-input [formsList]="itemList"/></li>
-            }
-        </ul> -->
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="handleReset()">Έκδοση</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="emitItemList()">Έκδοση</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Επιστροφή</button>
           <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="handleReset()">Ακύρωση</button>
         </div>

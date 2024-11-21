@@ -4,24 +4,22 @@ import { ListingInputComponent } from '../listing-input/listing-input.component'
 import { registerObject } from '../../cashRegisterObject';
 import { PopupComponent } from '../popup/popup.component';
 import { CommonModule } from '@angular/common';
+import { SearchCatalogComponent } from '../search-catalog/search-catalog.component';
+
 
 @Component({
   selector: 'app-receipt',
   standalone: true,
-  imports: [ReactiveFormsModule, ListingInputComponent, PopupComponent, CommonModule],
+  imports: [ReactiveFormsModule, ListingInputComponent, PopupComponent, CommonModule, SearchCatalogComponent],
   templateUrl: './receipt.component.html',
   styleUrl: './receipt.component.css'
 })
 export class ReceiptComponent {
 
-  formatter = new Intl.NumberFormat('default', {
-    style: 'currency',
-    currency: 'EUR',
-  });
-
+  
   receiptForm = new FormGroup({
     user_id: new FormControl('', [Validators.required, Validators.pattern('[0-9]')]),
-    body: new FormControl('',[Validators.pattern('[a-zA-Z ]*') ,Validators.required]),
+    description: new FormControl('',/*[Validators.pattern('[a-zA-Z0-9 ]*') ,*/Validators.required),
     price: new FormControl('',[
       Validators.pattern(/^\d+(\.\d{1,2})?$/), 
       Validators.required
@@ -32,15 +30,20 @@ export class ReceiptComponent {
     ]),
     amount: new FormControl('')
   })
-
+  
+  formatter = new Intl.NumberFormat('default', {
+    style: 'currency',
+    currency: 'EUR',
+  });
   
   formsList: registerObject[] = [];
   showModal = false;
   paidTotal = 0;
   identity = 0;
+  userIdGlobal = 1;
 
   isFormValid = true;
-  
+
   handleFormSubmit() {
     if (!this.receiptForm.valid) {
       
@@ -52,9 +55,9 @@ export class ReceiptComponent {
       }
       
       const registerObjectFromForm: registerObject = {
-        user_id: Number(this.receiptForm.value.user_id),
-        id: this.identity++,
-        body: this.receiptForm.value.body || '',
+        user_id: this.userIdGlobal,//Number(this.receiptForm.value.user_id),
+        product_id: this.identity++,
+        description: this.receiptForm.value.description || '',
         price:  Number(this.receiptForm.value.price) ,
         quantity: Number(this.receiptForm.value.quantity) ,
         total: Number(this.receiptForm.value.amount) ,
@@ -70,6 +73,15 @@ export class ReceiptComponent {
     }
   }
   
+  fillFormAfterSearch(object: registerObject): void{
+    this.receiptForm.patchValue({
+      user_id: object.user_id.toString(),
+      description : object.description,
+      price : object.price.toString(),
+      quantity: '1'
+    })
+  }
+
   postForm(body: string | null | undefined){
     console.log(`Data from the input${body}`);
   }
@@ -79,8 +91,6 @@ export class ReceiptComponent {
   }
   
   handleReset() {
-    this.receiptForm.reset();
-
     while(this.formsList.length > 0)
       this.formsList.pop();
     this.updateTotal();
@@ -88,11 +98,15 @@ export class ReceiptComponent {
     this.isFormValid = true;
   }
 
+  handleResetForm(){
+    this.receiptForm.reset();
+  }
+
   updateTotal() {
     let sumOfEntry = 0
     for(let entry of this.formsList) {
       if(this.formsList.length !== 0) {
-        sumOfEntry += entry.total
+        sumOfEntry += entry.total!
       }
       
     }
@@ -126,10 +140,10 @@ export class ReceiptComponent {
   // }
 
   checkInput(): boolean {
-    const body = this.receiptForm.value.body
+    const body = this.receiptForm.value.description
     const price = this.receiptForm.value.price
     for(let entry of this.formsList) {
-      if(body === entry.body && Number(price) === entry.price){
+      if(body === entry.description && Number(price) === entry.price){
         entry.quantity += Number(this.receiptForm.value.quantity);
         entry.total = entry.quantity * entry.price;
 

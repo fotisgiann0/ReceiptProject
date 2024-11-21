@@ -12,11 +12,11 @@
         <tbody>
             <tr *ngFor="let listingEntry of formsList; let i = index;">
                 <td>{{listingEntry.user_id}}</td>
-                <td>{{listingEntry.body}}</td>
+                <td>{{listingEntry.description}}</td>
                 <td>{{listingEntry.price}}</td>
                 <td>{{listingEntry.quantity}}</td>
                 <td>{{listingEntry.total}}</td>
-                <td *ngIf="this.buttonFLag"><button (click)="deleteRow(listingEntry.id)">Αφαίρεση</button></td>
+                <td *ngIf="this.buttonFLag"><button (click)="deleteRow(listingEntry.product_id)">Αφαίρεση</button></td>
             </tr>
         
         </tbody>

@@ -1,5 +1,16 @@
-form{
-    display: block;
+.full_form{
+    /* display:inline-block; */
+    margin-left: 20px;
+}
+
+.all {
+    display: flex;
+
+}
+
+.align_disc{
+    display: inline-block;
+    color: red;
 }
 
 ul {
@@ -7,12 +18,30 @@ ul {
     margin-top: 20px;
     
 }
+
 .list-container {
     display: grid;
 }
+
 .listing-li {
     
     border: 5px solid;
     width: 50%;
     padding: 10px;
+}
+
+.description_price {
+    display: flex;
+}
+
+.price_label {
+    margin-left: 20px;
+}
+
+.buttons {
+    margin-top: 20px;
+}
+
+.buttons > button {
+    margin-right: 20px;
 }

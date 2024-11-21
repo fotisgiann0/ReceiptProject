@@ -6,6 +6,7 @@ import { CompMenuComponent } from './components/comp-menu/comp-menu.component';
 import { ReceiptComponent } from './components/receipt/receipt.component';
 import { ListingInputComponent } from './components/listing-input/listing-input.component';
 import { PopupComponent } from './components/popup/popup.component';
+import { registerObject } from './cashRegisterObject';
 
 @Component({
   selector: 'app-root',
@@ -16,4 +17,7 @@ import { PopupComponent } from './components/popup/popup.component';
 })
 export class AppComponent {
   title = 'receipt-project';
+
+  historyList: registerObject[] = [];
+
 }
