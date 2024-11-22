@@ -7,7 +7,7 @@
         "quantity": 1,
         "total": 0,
 
-        "invetory": 100
+        "stock": 100
     },
     {
         "user_id":1,
@@ -17,7 +17,7 @@
         "quantity": 1,
         "total": 0,
 
-        "invetory": 100
+        "stock": 100
     },
     {
         "user_id":1,
@@ -27,7 +27,7 @@
         "quantity": 1,
         "total": 0,
 
-        "invetory": 100
+        "stock": 100
     },
     {
         "user_id":1,
@@ -37,6 +37,6 @@
         "quantity": 1,
         "total": 0,
 
-        "invetory": 100
+        "stock": 100
     }
 ]

@@ -13,10 +13,10 @@
         </div>
         <div class="modal-body">
           <h1 class="modal-title fs-5" id="paid_total_h1">Πληρωτέο: {{formatter.format(paid_total)}}</h1>
-          <app-listing-input [formsList]="itemList" [(paid_Total)] ="paid_total"  [buttonFLag]="false"/>
+          <app-listing-input [lines]="itemList" [(paid_Total)] ="paid_total"  [buttonFLag]="false"/>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="emitItemList()">Έκδοση</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="emitItemAndHistoryLists()">Έκδοση</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Επιστροφή</button>
           <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="handleReset()">Ακύρωση</button>
         </div>

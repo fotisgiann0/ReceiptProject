@@ -4,7 +4,7 @@
     <div class="main-layout">
       <app-comp-menu  class="menu"/>
       <div class="content">
-        <router-outlet />
+        <router-outlet (activate)="onOutletLoaded($event)" />
       </div>
     </div>
     <app-comp-footer class="footer"/>

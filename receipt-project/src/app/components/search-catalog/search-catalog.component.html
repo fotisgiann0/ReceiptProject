@@ -19,9 +19,9 @@
               Browse Catalogue
               <input type="text" id="search_catalogue" [(ngModel)]="searchInput">
             </label>
-            <button type="submit" (click)="handleSearch(this.searchInput)">Search</button>  
+            <button type="submit" (click)="searchProducts(this.searchInput)">Search</button>  
           </div>
-          <form name="searchForm" [formGroup]="searchForm" (ngSubmit)="handleFormSubmit()">
+          <form name="searchForm" [formGroup]="searchForm" (ngSubmit)="formSubmit()">
             <select id="select_product" name="select_product" formControlName="description">
               @for(item of searchList; track item) {
                   <option value="{{item.description}}">{{item.description}}, {{item.price}}</option>

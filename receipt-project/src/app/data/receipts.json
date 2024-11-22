@@ -1,0 +1,56 @@
+[
+    {
+        "receipt_id": 1,
+        "date": "2024-11-22 15:30:00",
+        "total": 110.00,
+        "user_id": 1,
+        "lines":
+                [
+                    {
+                        "user_id": 1,
+                        "product_id": 1,
+                        "description": "book",
+                        "price": 10.00,
+                        "quantity": 2,
+                        "total": 20.00,
+                        "stock": 100
+                    },
+                    {
+                        "user_id": 1,
+                        "product_id": 21,
+                        "description": "book2",
+                        "price": 15.00,                             
+                        "quantity": 6,
+                        "total": 90.00,
+                        "stock": 100
+                    }
+                ]
+    },
+    {
+        "receipt_id": 2,
+        "date": "2024-11-22 15:35:00",
+        "total": 110.00,
+        "user_id": 1,
+        "lines":
+                [
+                    {
+                        "user_id": 1,
+                        "product_id": 21,
+                        "description": "book2",
+                        "price": 15.00,
+                        "quantity": 6,
+                        "total": 90.00,
+                        "stock": 100
+                    },
+                    {
+                        "user_id": 1,
+                        "product_id": 21,
+                        "description": "book2",
+                        "price": 15.00,
+                        "quantity": 6,
+                        "total": 90.00,
+                        "stock": 100
+                    }
+                ]
+    }
+]

@@ -1,1 +1,8 @@
-<p>history works!</p>
+@for (entry of totalHistory; track entry) {
+    <div>
+        {{entry.id}}
+        @for(listEntry of entry.list; track listEntry) {
+            <div>{{listEntry.description}}</div>
+        }
+    </div>
+}

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { registerObject } from '../../cashRegisterObject';
+import { receiptLine } from '../../receiptLineInterface';
 import { ListingInputComponent } from "../listing-input/listing-input.component";
 
 @Component({
@@ -13,18 +13,20 @@ export class PopupComponent {
 
   @Input({
     required: true,
-  }) itemList!: registerObject[]; //isws me = []
+  }) itemList!: receiptLine[]; //isws me = []
 
   @Input() paid_total!: number;
+  @Input() historyList!: receiptLine[];
 
   formatter = new Intl.NumberFormat('default', {
     style: 'currency',
     currency: 'EUR',
   });
   
-  @Output() itemList_emmitter = new EventEmitter<registerObject[]>();
+  @Output() itemList_emmitter = new EventEmitter<receiptLine[]>();
 
   @Output() paid_totalChange = new EventEmitter<number>();
+  @Output() historyListChange = new EventEmitter<receiptLine[]>();
   
   handleReset() {
     while(this.itemList.length > 0)
@@ -33,7 +35,11 @@ export class PopupComponent {
     this.paid_totalChange.emit(this.paid_total);
   }
 
-  emitItemList() {
+  emitItemAndHistoryLists() {
+    for(let entry of this.itemList) {
+      this.historyList.push(entry);
+    }
     this.itemList_emmitter.emit(this.itemList);
+    this.historyListChange.emit(this.historyList);
   }
 }

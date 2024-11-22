@@ -1,1 +1,22 @@
-<p>settings works!</p>
+<div class="settings">
+    <form name="settingsForm" [formGroup]="settingsForm">
+
+        @for(entry of this.products; track entry){
+            <label>
+                {{entry.description}} stock: 
+                <input 
+                type="number"
+                min="0"  
+                step="1" 
+                formControlName="stock"/> 
+            </label>
+            <button type="button" (click)="updateInvetory()">Update Invetory</button>
+        }
+    </form>
+</div>
+
+<!-- <div role="alert">
+    @for(entry of this.catalogue; track entry){
+        <p> {{entry.description}} inventory: {{ entry.inventory }}</p>
+    }
+</div> -->

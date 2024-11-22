@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import data from '../../data/catalogue.json';
-import { registerObject } from '../../cashRegisterObject';
+
+import { receiptLine } from '../../receiptLineInterface';
 import { ReactiveFormsModule, FormControl, FormGroup, FormsModule } from '@angular/forms';
 
 
@@ -13,22 +13,23 @@ import { ReactiveFormsModule, FormControl, FormGroup, FormsModule } from '@angul
   styleUrl: './search-catalog.component.css'
 })
 export class SearchCatalogComponent {
- 
   searchForm = new FormGroup({
     description: new FormControl('')
   })
 
+  @Output() itemSelected = new EventEmitter<receiptLine>();
 
-  @Output() itemSelected = new EventEmitter<registerObject>();
+  searchInput: string | number = ''; //input for handle search
 
-  searchInput: string | number = '';
+  @Input({
+    required: true,
+  }) products:receiptLine[] = [];
+  
+  searchList: receiptLine[] = []; 
 
-  catalogue: registerObject[] = data;
-  searchList: registerObject[] = [];
-
-  handleFormSubmit(){
+  formSubmit(){
     const description = this.searchForm.value.description
-    const selected_object = this.catalogue.find(item => item.description === description);
+    const selected_object = this.products.find(item => item.description === description);
     if(selected_object){
       this.itemSelected.emit(selected_object);
     }else{
@@ -36,18 +37,18 @@ export class SearchCatalogComponent {
     }
   }
 
-  handleSearch(input: string | number): registerObject[]{
-    let returnObject:registerObject[] = [];
+  searchProducts(input: string | number): receiptLine[]{
+    let returnObject:receiptLine[] = [];
     if(typeof(input) === 'number'){
-      const index = this.catalogue.findIndex(item => item.product_id === Number(input));
+      const index = this.products.findIndex(item => item.product_id === Number(input));
 
-      returnObject.push(this.catalogue[index]);
+      returnObject.push(this.products[index]);
 
       console.log(returnObject);
 
       return returnObject;
     }else{
-      this.catalogue.forEach(element => {
+      this.products.forEach(element => {
         if(element.description.toLowerCase().includes(input)){
           returnObject.push(element);
         }

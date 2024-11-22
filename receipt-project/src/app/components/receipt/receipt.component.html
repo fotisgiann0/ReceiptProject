@@ -1,77 +1,74 @@
 <article>
     <h1>Cash Register</h1>
-    <!-- <div class="input-area">
-        <app-search-catalog (itemSelected)="fillFormAfterSearch($event)"></app-search-catalog> -->
-        <div class="all">
-            <app-search-catalog (itemSelected)="fillFormAfterSearch($event)"></app-search-catalog>
-            <form name="receiptForm" [formGroup]="receiptForm" (ngSubmit)="handleFormSubmit()">
-                <div class="full_form">
-                    <!-- <div> -->
-                        <label for="user_id"> User ID: {{userIdGlobal}}</label>
-                    <!-- </div> -->
-                    <div class="description_price" >
-                        
-                        <div>
-                            <label for="description" class="description_label"> Description:</label>
-                            <input type="text" id="description" formControlName="description" placeholder="Input" readonly/>
-                            <div *ngIf="receiptForm.get('description')?.invalid && (receiptForm.get('description')?.dirty || receiptForm.get('description')?.touched)">
-                                <!-- <div *ngIf="receiptForm.get('body')?.hasError('required')" style="color:red;">
-                                    Product is required.
-                                </div>  -->
-                            </div>
+    <div class="all">
+        <app-search-catalog (itemSelected)="fillFormAfterSearch($event)" [products]="this.products"></app-search-catalog>
+        <form name="receiptForm" [formGroup]="receiptForm" (ngSubmit)="handleFormSubmit()">
+            <div class="full_form">
+                <label for="user_id"> User ID: {{userIdGlobal}}</label>
+                <div class="description_price" >
+                    <div>
+                        <label for="description" class="description_label"> Description:</label>
+                        <input type="text" id="description" formControlName="description" placeholder="Input" readonly/>
+                        <div *ngIf="receiptForm.get('description')?.invalid && (receiptForm.get('description')?.dirty || receiptForm.get('description')?.touched)">
+                            <!-- <div *ngIf="receiptForm.get('body')?.hasError('required')" style="color:red;">
+                                Product is required.
+                            </div>  -->
                         </div>
-                        <div>
-                            <label class="price_label">
-                                Price:
-                                <input type="text" id="price" formControlName="price" placeholder="Price" readonly/>
-                                <div *ngIf="receiptForm.get('price')?.invalid && (receiptForm.get('price')?.dirty || receiptForm.get('price')?.touched)">
-                                    <!-- <div *ngIf="receiptForm.get('price')?.hasError('required')" style="color:red;">
-                                        Price is required.
-                                    </div> -->
-                                    <div *ngIf="receiptForm.get('price')?.hasError('pattern')" style="color:red;">
-                                        Price format is invalid.
-                                    </div>
-        
+                    </div>
+                    <div>
+                        <label class="price_label">
+                            Price:
+                            <input type="text" id="price" formControlName="price" placeholder="Price" readonly/>
+                            <div *ngIf="receiptForm.get('price')?.invalid && (receiptForm.get('price')?.dirty || receiptForm.get('price')?.touched)">
+                                <!-- <div *ngIf="receiptForm.get('price')?.hasError('required')" style="color:red;">
+                                    Price is required.
+                                </div> -->
+                                <div *ngIf="receiptForm.get('price')?.hasError('pattern')" style="color:red;">
+                                    Price format is invalid.
                                 </div>
-                            </label>
+    
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <div class="">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" formControlName="quantity" placeholder="Quantity" min="1"  step="1" value="1"/>
+                    <div *ngIf="receiptForm.get('quantity')?.invalid && (receiptForm.get('quantity')?.dirty || receiptForm.get('quantity')?.touched)">
+                        <div *ngIf="receiptForm.get('quantity')?.hasError('required')" style="color:red;">
+                            Quantity is required.
                         </div>
-                    </div>
-                    <div class="">
-                        <label for="quantity">Quantity:</label>
-                        <input type="number" id="quantity" formControlName="quantity" placeholder="Quantity" min="1"  step="1" value="1"/>
-                        <div *ngIf="receiptForm.get('quantity')?.invalid && (receiptForm.get('quantity')?.dirty || receiptForm.get('quantity')?.touched)">
-                            <div *ngIf="receiptForm.get('quantity')?.hasError('required')" style="color:red;">
-                                Quantity is required.
-                            </div>
-                            <div *ngIf="receiptForm.get('quantity')?.hasError('pattern')" style="color:red;">
-                                Quantity format is invalid.
-                            </div>
+                        <div *ngIf="receiptForm.get('quantity')?.hasError('pattern')" style="color:red;">
+                            Quantity format is invalid.
+                        </div>
+    
+                    </div>    
+                </div>
+            </div>
         
-                        </div>    
-                    </div>
-                </div>
-            
-                <div class="buttons">
-                    <button type="submit" [disabled]="this.receiptForm.invalid">Προσθήκη:</button>
-                    <button type="button" (click)="handleReset()">Καθαρισμός λίστας</button>
-                    <button type="reset" (click)="handleResetForm()">Καθαρισμός φόρμας</button>
-                </div>
-            
-            </form>
-        </div>
-    <!-- </div> -->
-    @if(this.isFormValid === false){
+            <div class="buttons">
+                <button type="submit" [disabled]="this.receiptForm.invalid">Προσθήκη:</button>
+                <button type="button" (click)="resetLines()">Καθαρισμός λίστας</button>
+                <button type="reset" (click)="resetForm()">Καθαρισμός φόρμας</button>
+            </div>
+        
+        </form>
+    </div>
+    @if(this.isFormValid === false || this.insufficientInventory == true){
         <p>Form is Invalid</p>
+        <div class="alert alert-danger" role="alert">
+            The requested quantity is not available. Remaining inventory: {{this.itemInventory}}.
+        </div>
     }
     @if(paidTotal > 0){
         <div>
             <div class="paid">
                 <h1 id="paid_total">Πληρωτέο: {{formatter.format(paidTotal)}}</h1>
             </div>
-            <app-popup [itemList]="formsList" [(paid_total)]="paidTotal"></app-popup>
+            <app-popup [itemList]="lines" [(paid_total)]="paidTotal" [(historyList)]="historyList"></app-popup>
         </div>
     }
     <section class="list-container">
-        <app-listing-input [formsList]="formsList" [(paid_Total)]="paidTotal" [buttonFLag]="true"/> 
+        <app-listing-input [lines]="lines" [(paid_Total)]="paidTotal" [buttonFLag]="true"/> 
     </section>
 </article>
