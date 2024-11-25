@@ -1,8 +1,28 @@
-@for (entry of totalHistory; track entry) {
     <div>
-        {{entry.id}}
-        @for(listEntry of entry.list; track listEntry) {
-            <div>{{listEntry.description}}</div>
-        }
+        <table>
+            <thead>
+                <tr>
+                    <th>Receipt ID</th>
+                    <th>User ID</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                    </tr>
+            </thead>
+            <tbody>
+                @for(entry of historyList; track entry) {
+                    <tr>
+                        <td>{{entry.receipt_id}}</td>
+                        <td> {{entry.user_id}}</td>
+                        <td>{{entry.date}}</td>
+                        <td>{{entry.total}}</td>
+                        <td>
+                            <history-popup 
+                                [itemList]="entry.lines"
+                                [paid_total]="entry.total"
+                            ></history-popup>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>      
     </div>
-}

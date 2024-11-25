@@ -1,10 +1,12 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnDestroy, OnChanges, SimpleChanges, WritableSignal, Signal } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ListingInputComponent } from '../listing-input/listing-input.component';
 import { receiptLine } from '../../receiptLineInterface';
 import { PopupComponent } from '../popup/popup.component';
 import { CommonModule } from '@angular/common';
 import { SearchCatalogComponent } from '../search-catalog/search-catalog.component';
+import { IHistory } from '../../historyInterface';
+import { emit } from 'process';
 
 
 @Component({
@@ -14,12 +16,18 @@ import { SearchCatalogComponent } from '../search-catalog/search-catalog.compone
   templateUrl: './receipt.component.html',
   styleUrl: './receipt.component.css'
 })
-export class ReceiptComponent {
+export class ReceiptComponent{
   @Input({
     required: true,
   }) products:receiptLine[] = [];
 
-  @Input() historyList!: receiptLine[];
+  @Input() receiptSignal!: WritableSignal<IHistory>;
+
+  @Input() receiptId!: number;
+
+  @Output() receiptIdChange = new EventEmitter<number>();
+
+  @Output() receiptChange = new EventEmitter<IHistory>();
   
   receiptForm = new FormGroup({
     user_id: new FormControl('', [Validators.required, Validators.pattern('[0-9]')]),
@@ -51,13 +59,16 @@ export class ReceiptComponent {
   insufficientInventory = false;
   itemInventory = 0;
 
+  handlePopupReceiptChange(updatedReceipt: IHistory){
+    this.resetLines();
+    this.receiptChange.emit(updatedReceipt);
+  }
+
   handleFormSubmit() {
     const index = this.products.findIndex(item => item.description === this.receiptForm.value.description);
     this.itemInventory = this.products[index].stock;
     const quantityRequested = Number(this.receiptForm.value.quantity);
-    console.log("Available inventory: "+ this.itemInventory);
     if(this.itemInventory < quantityRequested){
-      console.log("I AM IN!");
       this.insufficientInventory = true;
       return;
     }else if (this.receiptForm.valid){
@@ -103,8 +114,6 @@ export class ReceiptComponent {
   receiveListForHistory(object: receiptLine[]): void {
     console.log("in history function in receipts")
     console.log(object);
-    this.historyList
-    
   }
 
   addInputToLines(register: receiptLine) {
@@ -151,5 +160,4 @@ export class ReceiptComponent {
     }
     return false;
   }
-
 }

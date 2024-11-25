@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CompFooterComponent } from './components/comp-footer/comp-footer.component';
 import { CompHeaderComponent } from './components/comp-header/comp-header.component';
@@ -22,26 +22,66 @@ import { IHistory } from './historyInterface';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+  
   title = 'receipt-project';
-
+  
   products: receiptLine[] = data;
+  
+  historyList: IHistory[] = [];
 
-  historyList: IHistory[] = receipts;
+  receiptId = 0;
+  historyListLengthSignal = computed(() => this.historyList.length);
+  
+  receiptSignal = signal<IHistory>({
+    receipt_id: -1,
+    date: "2024-11-22 15:30:00",
+    total: 0,
+    user_id: 0,
+    lines: [
+      {
+        user_id: 0,
+        product_id: 0,
+        description: "null",
+        price: 0,
+        quantity: 0,
+        total: 0,
+        stock: 0,
+      },
+    ],
+  });
 
+  constructor() {
+  }
+    
   onOutletLoaded(component: ReceiptComponent | SearchCatalogComponent | SettingsComponent | HistoryComponent) {
-    if(component instanceof HistoryComponent)  {
+    if(component instanceof HistoryComponent)  
+    {
       component.historyList = this.historyList;
     }
-    else if(component instanceof ReceiptComponent) {
+    else if(component instanceof ReceiptComponent) 
+    {
+      //component.historyLengthSignal = this.historyListLengthSignal;
+      component.receiptId = this.receiptId
+      component.receiptSignal = this.receiptSignal!;
+
       component.products =  this.products;
-      component.historyList = this.historyList;
-      // this.historyList = component.historyList;
-      console.log(component.historyList);
+
+      // if(component.receiptChange)
+      // {
+      component.receiptChange.subscribe((updatedReceipt: IHistory) => {
+        this.receiptSignal.set(updatedReceipt);
+        this.historyList.push(updatedReceipt);
+
+        console.log('Updated receipt received:', updatedReceipt);
+        console.log("Length:")
+        console.log(this.historyList.length)
+        
+      });
+      // }
     }
     else {
       component.products =  this.products;
-    }     
-    
+    }       
   } 
 
 }

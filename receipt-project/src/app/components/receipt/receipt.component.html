@@ -65,7 +65,14 @@
             <div class="paid">
                 <h1 id="paid_total">Πληρωτέο: {{formatter.format(paidTotal)}}</h1>
             </div>
-            <app-popup [itemList]="lines" [(paid_total)]="paidTotal" [(historyList)]="historyList"></app-popup>
+            <app-popup 
+                [itemList]="lines"
+                [(paid_total)]="paidTotal" 
+                [(receipt)]="receiptSignal!" 
+                (receiptChange)="handlePopupReceiptChange($event)"
+                
+                [receiptId] = "this.receiptId">
+            </app-popup>
         </div>
     }
     <section class="list-container">
