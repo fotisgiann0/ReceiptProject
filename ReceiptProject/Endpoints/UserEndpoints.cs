@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
 using ReceiptProject.Endpoints.Internal;
 using ReceiptProject.Models;
 
@@ -17,6 +18,7 @@ namespace ReceiptProject.Endpoints
             app.MapGet("users", GetUsers)
                 .Produces<IEnumerable<Employee>>(200)
                 .Produces(404).WithTags("User");
+            app.MapGet("message", () => Results.Json("Hello World!")).WithTags("User");
 
             app.MapGet("users/{id}", GetUserById)
                 .WithName("GetUser")
