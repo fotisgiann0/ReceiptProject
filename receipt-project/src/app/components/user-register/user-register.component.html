@@ -1,0 +1,25 @@
+<div class="register-form">
+    <form name="registerForm" [formGroup]="registerForm" (ngSubmit)="onFormSubmit()">
+        <div class="form-body">
+            <label>
+                Employee id:
+                <input type="number" formControlName="emp_id" placeholder="0">
+            </label>
+            <br/>
+            <label>
+                Username:
+                <input type="text" formControlName="username" placeholder="You know it">
+            </label>
+            <br/>
+            <label>
+                Firstname:
+                <input type="number" formControlName="firstname" placeholder="Be">
+            </label>
+            <br/>
+            <label>
+                Lastname:
+                <input type="number" formControlName="lastname" placeholder="Brave">
+            </label>
+        </div>
+    </form>
+</div>

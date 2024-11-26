@@ -1,0 +1,9 @@
+table
+{
+ border-collapse: separate;
+ border-spacing:  12px 0;
+ text-align: center;
+}
+.total {
+    text-align: right;
+}

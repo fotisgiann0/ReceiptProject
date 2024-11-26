@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CompFooterComponent } from './components/comp-footer/comp-footer.component';
 import { CompHeaderComponent } from './components/comp-header/comp-header.component';
@@ -13,18 +13,21 @@ import receipts from './data/receipts.json'
 import { SettingsComponent } from './components/settings/settings.component';
 import { HistoryComponent } from './components/history/history.component';
 import { IHistory } from './historyInterface';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CompFooterComponent, CompHeaderComponent, CompMenuComponent],
+  imports: [RouterOutlet, CompFooterComponent, CompHeaderComponent, CompMenuComponent, HttpClientModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   
   title = 'receipt-project';
   
+  public data: any;
   products: receiptLine[] = data;
   
   historyList: IHistory[] = [];
@@ -50,7 +53,20 @@ export class AppComponent {
     ],
   });
 
-  constructor() {
+  constructor(private http: HttpClient) {
+  }
+  ngOnInit(): void {
+    this.fetachDetails();
+  }
+//https://localhost:7006/message
+//https://jsonplaceholder.typicode.com/todos/1
+  fetachDetails(){
+    this.http.get('https://localhost:7006/message/').subscribe(
+      (response:any) => {
+        console.log(response);
+        this.data = response;
+      }
+    );
   }
     
   onOutletLoaded(component: ReceiptComponent | SearchCatalogComponent | SettingsComponent | HistoryComponent) {

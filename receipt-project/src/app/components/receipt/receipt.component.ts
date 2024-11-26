@@ -109,6 +109,7 @@ export class ReceiptComponent{
       quantity: '1',
       inventory: object.stock.toString()
     })
+    this.insufficientInventory = false;
   }
 
   receiveListForHistory(object: receiptLine[]): void {
@@ -125,10 +126,12 @@ export class ReceiptComponent{
       this.lines.pop();
     this.updateTotal();
 
+    this.insufficientInventory = false;
     this.isFormValid = true;
   }
 
   resetForm(){
+    this.insufficientInventory = false;
     this.receiptForm.reset();
   }
 
