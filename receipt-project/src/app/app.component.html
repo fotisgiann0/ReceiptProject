@@ -1,13 +1,5 @@
 <main class="main">
-  <div class="container">
-    <app-comp-header class="header"/>
-    <div class="main-layout">
-      <app-comp-menu  class="menu"/>
-      <div class="content">
-        <router-outlet (activate)="onOutletLoaded($event)" />
-      </div>
-    </div>
-    <div>{{data}}</div>
-    <app-comp-footer class="footer"/>
+  <div>
+    <router-outlet></router-outlet>
   </div>
 </main>

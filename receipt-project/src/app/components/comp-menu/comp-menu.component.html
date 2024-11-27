@@ -1,25 +1,17 @@
-
-
 <nav>
     <ul>
         <li>
-            <button mat-button routerLink="cashRegister">Ταμειακή</button>
-            <!-- <a routerLink="cashRegister">
-                Ταμειακή
-            </a> -->
+            <button mat-button routerLink="/home/cashRegister">Ταμειακή</button>
         </li>
         <li>
-            <button mat-button routerLink="history">Ιστορικό</button>
-            <!-- <a routerLink="history">
-            Ιστορικό
-            </a> -->
+            <button mat-button routerLink="/home/history">Ιστορικό</button>
         </li>
         <li>
             <button mat-button [matMenuTriggerFor]="settingsMenu">Ρυθμίσεις</button>
 
             <mat-menu #settingsMenu="matMenu">
                 <button mat-menu-item routerLink="/">Προφίλ</button>
-                <button mat-menu-item routerLink="/settings">Αποθέματα</button>
+                <button mat-menu-item routerLink="/home/settings">Αποθέματα</button>
             </mat-menu>
         </li>
     </ul>

@@ -1,5 +1,6 @@
 <div class="register-form">
-    <form name="registerForm" [formGroup]="registerForm" (ngSubmit)="onFormSubmit()">
+    <span>Register Page</span>
+    <form name="" [formGroup]="registerForm" (ngSubmit)="onFormSubmit()">
         <div class="form-body">
             <label>
                 Employee id:
@@ -13,13 +14,14 @@
             <br/>
             <label>
                 Firstname:
-                <input type="number" formControlName="firstname" placeholder="Be">
+                <input type="text" formControlName="firstname" placeholder="Be">
             </label>
             <br/>
             <label>
                 Lastname:
-                <input type="number" formControlName="lastname" placeholder="Brave">
+                <input type="text" formControlName="lastname" placeholder="Brave">
             </label>
+            <button mat-button type="submit">Register</button>
         </div>
     </form>
 </div>

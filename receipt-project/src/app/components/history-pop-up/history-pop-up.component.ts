@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output, Signal } from '@angular/core';
-import { receiptLine } from '../../receiptLineInterface';
+import { receiptLine } from '../../Interfaces/receiptLineInterface';
 import { ListingInputComponent } from "../listing-input/listing-input.component";
-import { IHistory } from '../../historyInterface';
-import { IdentityService } from '../../identity.service';
+import { IHistory } from '../../Interfaces/historyInterface';
+import { IdentityService } from '../../services/Identity/identity.service';
 import { CommonModule } from '@angular/common';
 
 @Component({

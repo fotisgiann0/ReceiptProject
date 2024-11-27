@@ -1,11 +1,11 @@
 import { Component, Input, Output, EventEmitter, OnDestroy, OnChanges, SimpleChanges, WritableSignal, Signal } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ListingInputComponent } from '../listing-input/listing-input.component';
-import { receiptLine } from '../../receiptLineInterface';
+import { receiptLine } from '../../Interfaces/receiptLineInterface';
 import { PopupComponent } from '../popup/popup.component';
 import { CommonModule } from '@angular/common';
 import { SearchCatalogComponent } from '../search-catalog/search-catalog.component';
-import { IHistory } from '../../historyInterface';
+import { IHistory } from '../../Interfaces/historyInterface';
 import { emit } from 'process';
 
 
@@ -23,6 +23,10 @@ export class ReceiptComponent{
 
   @Input() receiptSignal!: WritableSignal<IHistory>;
 
+  @Input ({
+    required: true,
+  }) user_id!: number;
+  
   @Input() receiptId!: number;
 
   @Output() receiptIdChange = new EventEmitter<number>();

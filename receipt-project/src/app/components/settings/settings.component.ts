@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { receiptLine } from '../../receiptLineInterface';
+import { receiptLine } from '../../Interfaces/receiptLineInterface';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 

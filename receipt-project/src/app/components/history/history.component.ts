@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { receiptLine } from '../../receiptLineInterface';
-import { IHistory } from '../../historyInterface';
+import { receiptLine } from '../../Interfaces/receiptLineInterface';
+import { IHistory } from '../../Interfaces/historyInterface';
 import { listenerCount } from 'process';
 import { CommonModule } from '@angular/common';
 import { PopupComponent } from '../popup/popup.component';

@@ -1,6 +1,6 @@
 import { Component, Output, Input, EventEmitter, OnInit } from '@angular/core';
 import { ReceiptComponent } from '../receipt/receipt.component';
-import { receiptLine } from '../../receiptLineInterface';
+import { receiptLine } from '../../Interfaces/receiptLineInterface';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 

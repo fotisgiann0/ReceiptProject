@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 
-import { receiptLine } from '../../receiptLineInterface';
+import { receiptLine } from '../../Interfaces/receiptLineInterface';
 import { ReactiveFormsModule, FormControl, FormGroup, FormsModule } from '@angular/forms';
 
 
