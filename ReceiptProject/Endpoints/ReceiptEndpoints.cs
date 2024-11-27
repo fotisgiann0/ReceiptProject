@@ -178,6 +178,7 @@ namespace ReceiptProject.Endpoints
             return Results.Created("CreateReceipt", receipt);
 
         }
+        
         internal static async Task<IResult> DeleteReceipt(
             ReceiptDbContext context, int id)
         {
