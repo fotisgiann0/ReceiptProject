@@ -164,14 +164,17 @@ namespace ReceiptProject.Endpoints
                 rec_line.Freight = prod.Price * rec_line.Quantity;
                 fpa_sum += rec_line.Freight.Value * rec_line.Fpa.Value / 100;
                 freight_sum += rec_line.Freight.Value;
+                prod.Inventory -= rec_line.Quantity;
 
-
+                // context.Products.Update(prod);
+                // await context.SaveChangesAsync();
             }
             receipt.Fpa = fpa_sum;
             receipt.Freight = freight_sum;
             receipt.TotalCost = fpa_sum + freight_sum;
             await context.Receipts.AddAsync(receipt);
 
+            
             await context.SaveChangesAsync();
 
 
