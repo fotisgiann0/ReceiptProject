@@ -1,10 +1,10 @@
 <article>
     <h1>Cash Register</h1>
     <div class="all">
-        <app-search-catalog (itemSelected)="fillFormAfterSearch($event)" [products]="this.products"></app-search-catalog>
+        <app-search-catalog (itemSelected)="fillFormAfterSearch($event)" (productsChange)="getProductList($event)" ></app-search-catalog>
         <form name="receiptForm" [formGroup]="receiptForm" (ngSubmit)="handleFormSubmit()">
             <div class="full_form">
-                <label for="user_id"> User ID: {{userIdGlobal}}</label>
+                <label for="user_id"> User ID: {{idService.userIDSignal()}}</label>
                 <div class="description_price" >
                     <div>
                         <label for="description" class="description_label"> Description:</label>

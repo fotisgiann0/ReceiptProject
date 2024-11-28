@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { RegisterNewUserService } from '../../services/Register/register-new-user.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { userIDService } from '../../services/Signals/userID';
 
 @Component({
   selector: 'app-login-user',
@@ -21,9 +22,9 @@ export class LoginUserComponent {
   
   isLoginCredentialsCorrect:boolean = false;
 
-  user_id: number | null = 0;
+  user_id: number = 10;
 
-  constructor(private employeeService: RegisterNewUserService, private router: Router) {}
+  constructor(private employeeService: RegisterNewUserService, private router: Router, private idService:userIDService) {}
   employee$!: Observable<Employee>;
   onFormSubmit(){
     const emp_id = Number(this.loginForm.value.emp_id)
@@ -38,9 +39,13 @@ export class LoginUserComponent {
           this.isLoginCredentialsCorrect = true
 
           this.user_id = data.empId;
-          this.router.navigate(['/home'], {
-            queryParams: { user_id: this.user_id }
-          });
+          console.log("sending from log in to home")
+          console.log(this.user_id)
+          this.idService.setID(data.empId);
+          this.router.navigate(['/home']);
+          //   , {
+          //   queryParams: { user_id: this.user_id }
+          // });
           
           console.log(data);
         }else{

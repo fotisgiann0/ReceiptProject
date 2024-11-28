@@ -4,6 +4,7 @@ import { ListingInputComponent } from "../listing-input/listing-input.component"
 import { IHistory } from '../../Interfaces/historyInterface';
 import { IdentityService } from '../../services/Identity/identity.service';
 import { CommonModule } from '@angular/common';
+import { userIDService } from '../../services/Signals/userID';
 
 @Component({
   selector: 'app-popup',
@@ -14,6 +15,7 @@ import { CommonModule } from '@angular/common';
 })
 export class PopupComponent {
 
+ 
   @Input({
     required: true,
   }) itemList!: receiptLine[];
@@ -51,7 +53,7 @@ export class PopupComponent {
       receipt_id: this.rec_id,
       date: new Date().toISOString(),
       total: this.paid_total,
-      user_id: 1,
+      user_id: this.userIdService.userIDSignal()!,
       lines: [...this.itemList]
     }
 
@@ -60,7 +62,7 @@ export class PopupComponent {
     this.itemList_emmitter.emit(this.itemList);
   }
 
-  constructor(private identityService: IdentityService) {
+  constructor(private identityService: IdentityService, private userIdService: userIDService) {
     this.rec_id = this.identityService.getNextId();
   }
 }

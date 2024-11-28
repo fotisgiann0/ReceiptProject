@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { receiptLine } from '../../Interfaces/receiptLineInterface';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ProductsService } from '../../services/Products/products';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-settings',
@@ -11,17 +13,40 @@ import { CommonModule } from '@angular/common';
   styleUrl: './settings.component.css'
 })
 export class SettingsComponent implements OnInit {  
-  @Input({
-    required: true,
-  }) products:receiptLine[] = [];
+  products:receiptLine[] = [];
 
   settingsForm!: FormGroup;
 
   updatedStocks: { [key: number]: number } = {};
   errorval = false;
-  constructor() {}
+  
+  constructor(private productService: ProductsService){
+    
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    let i = 0;
+
+    this.productService.getProducts()
+    .pipe(
+      map(products => products.filter(p => i++ < 10))
+    )
+    .subscribe(productsArray => {
+      productsArray.forEach(product =>{
+        const newLineProduct: receiptLine = {
+          user_id: 0,
+          quantity: 0,
+          total: 0,
+          product_id: product.productId,
+          description: product.prodDescription,
+          price: product.price,
+          stock: product.inventory
+        };
+
+        this.products.push(newLineProduct);
+      })
+    })
+  }
   
   onStockChange(index: number, event: Event): void {
     const inputElement = event.target as HTMLInputElement;
@@ -50,7 +75,4 @@ export class SettingsComponent implements OnInit {
     this.updatedStocks = {}
   }
 
-  // errorDiv(val: boolean=false) {
-  //   return val;
-  // }
 }

@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 
 import { receiptLine } from '../../Interfaces/receiptLineInterface';
 import { ReactiveFormsModule, FormControl, FormGroup, FormsModule } from '@angular/forms';
-
+import { ProductsService } from '../../services/Products/products';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search-catalog',
@@ -12,26 +13,62 @@ import { ReactiveFormsModule, FormControl, FormGroup, FormsModule } from '@angul
   templateUrl: './search-catalog.component.html',
   styleUrl: './search-catalog.component.css'
 })
-export class SearchCatalogComponent {
+export class SearchCatalogComponent implements OnInit {
+  constructor(private productService: ProductsService){
+    
+  }
+
   searchForm = new FormGroup({
     description: new FormControl('')
   })
+
+  @Output() productsChange = new EventEmitter<receiptLine[]>();
 
   @Output() itemSelected = new EventEmitter<receiptLine>();
 
   searchInput: string | number = ''; //input for handle search
 
-  @Input({
-    required: true,
-  }) products:receiptLine[] = [];
   
+  products:receiptLine[] = [];
   searchList: receiptLine[] = []; 
+
+  ngOnInit(){
+    let i = 0;
+
+    this.productService.getProducts()
+    .pipe(
+      map(products => products.filter(p => i++ < 10))
+    )
+    .subscribe(productsArray => {
+      productsArray.forEach(product =>{
+        const newLineProduct: receiptLine = {
+          user_id: 0,
+          quantity: 0,
+          total: 0,
+          product_id: product.productId,
+          description: product.prodDescription,
+          price: product.price,
+          stock: product.inventory
+        };
+
+        this.products.push(newLineProduct);
+      })
+    })
+
+    console.log(this.products);
+  }
+
 
   formSubmit(){
     const description = this.searchForm.value.description
     const selected_object = this.products.find(item => item.description === description);
+    
+    console.log("selected_object: "+selected_object);
+    console.log(selected_object)
+    
     if(selected_object){
       this.itemSelected.emit(selected_object);
+      this.productsChange.emit(this.products);
     }else{
       console.log("error:" +typeof(selected_object));
     }

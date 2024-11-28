@@ -12,7 +12,7 @@ export interface Receipt {
     Freight: number,
     Fpa: number,
     TotalCost: number,
-    PaymentType: number,
+    PaymentType: string,
     Emp: Employee,
     ReceiptLines: receiptLine[],
     // Register: CashRegister

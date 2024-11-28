@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnDestroy, OnChanges, SimpleChanges, WritableSignal, Signal } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnDestroy, OnChanges, SimpleChanges, WritableSignal, signal, OnInit, InputSignal, input, Signal } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ListingInputComponent } from '../listing-input/listing-input.component';
 import { receiptLine } from '../../Interfaces/receiptLineInterface';
@@ -7,7 +7,11 @@ import { CommonModule } from '@angular/common';
 import { SearchCatalogComponent } from '../search-catalog/search-catalog.component';
 import { IHistory } from '../../Interfaces/historyInterface';
 import { emit } from 'process';
-
+import { HttpClient } from '@angular/common/http';
+import { RouterOutlet } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { IdentityService } from '../../services/Identity/identity.service';
+import { userIDService } from '../../services/Signals/userID';
 
 @Component({
   selector: 'app-receipt',
@@ -16,20 +20,22 @@ import { emit } from 'process';
   templateUrl: './receipt.component.html',
   styleUrl: './receipt.component.css'
 })
-export class ReceiptComponent{
-  @Input({
-    required: true,
-  }) products:receiptLine[] = [];
+export class ReceiptComponent {
+  products:receiptLine[] = [];
 
   @Input() receiptSignal!: WritableSignal<IHistory>;
 
-  @Input ({
-    required: true,
-  }) user_id!: number;
+
+  @Input() userIDSignal!: Signal<number>;
+  //userIDSignal: InputSignal<number> = input.required<number>();
+
+  constructor(private route: ActivatedRoute, public idService: userIDService) {
+  }
   
   @Input() receiptId!: number;
 
   @Output() receiptIdChange = new EventEmitter<number>();
+  @Output() userIdSignalChange = new EventEmitter<number>();
 
   @Output() receiptChange = new EventEmitter<IHistory>();
   
@@ -70,6 +76,11 @@ export class ReceiptComponent{
 
   handleFormSubmit() {
     const index = this.products.findIndex(item => item.description === this.receiptForm.value.description);
+
+    console.log("Index from products:"+index);
+    console.log("Products:");
+    console.log(this.products);
+
     this.itemInventory = this.products[index].stock;
     const quantityRequested = Number(this.receiptForm.value.quantity);
     if(this.itemInventory < quantityRequested){
@@ -84,7 +95,7 @@ export class ReceiptComponent{
       }
       
       const receiptLineFromForm: receiptLine = {
-        user_id: this.userIdGlobal,//Number(this.receiptForm.value.user_id),
+        user_id: this.idService.userIDSignal()!,//this.userIdGlobal,//Number(this.receiptForm.value.user_id),
         product_id: this.identity++,
         description: this.receiptForm.value.description || '',
         price:  Number(this.receiptForm.value.price) ,
@@ -114,6 +125,11 @@ export class ReceiptComponent{
       inventory: object.stock.toString()
     })
     this.insufficientInventory = false;
+  }
+
+  getProductList(object: receiptLine[]): void {
+    this.products = object;
+    console.log(this.products)
   }
 
   receiveListForHistory(object: receiptLine[]): void {

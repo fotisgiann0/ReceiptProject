@@ -1,9 +1,10 @@
 import { receiptLine } from "./receiptLineInterface";
+import { insertReceiptLine } from "./insertReceiptLineInterface";
 
 export interface InsertReceipt{
-  RegisterId: number;
-  EmpId: number;
-  RecTime: number;
-  PaymentType: string;
-  ReceiptLines: receiptLine[];
+  registerId: number;
+  empId: number;
+  recTime: string;
+  paymentType: string;
+  ReceiptLines: insertReceiptLine[];
 }

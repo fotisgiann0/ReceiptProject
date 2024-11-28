@@ -11,6 +11,7 @@ export class ReceiptService{
   constructor(private http: HttpClient) { }
 
   createReceiptPost(receipt: InsertReceipt){
+    console.log("I am trying to call the api...");
     return this.http.post("https://localhost:7006/receipts/", receipt)
     .subscribe(data => {
       console.log(data);
