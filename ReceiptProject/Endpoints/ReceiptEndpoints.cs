@@ -167,7 +167,7 @@ namespace ReceiptProject.Endpoints
                 prod.Inventory -= rec_line.Quantity;
 
                 // context.Products.Update(prod);
-                // await context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
             receipt.Fpa = fpa_sum;
             receipt.Freight = freight_sum;

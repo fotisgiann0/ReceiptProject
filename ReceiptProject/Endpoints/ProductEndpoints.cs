@@ -126,7 +126,7 @@ namespace ReceiptProject.Endpoints
             if (forUpd is null)
                 return Results.NotFound();
 
-            if(items <= 0)
+            if(forUpd.Inventory + items < 0)
             {
                 return Results.BadRequest(422);
             }
