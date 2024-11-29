@@ -12,6 +12,7 @@ import { RouterOutlet } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { IdentityService } from '../../services/Identity/identity.service';
 import { userIDService } from '../../services/Signals/userID';
+import { lutimes } from 'fs';
 
 @Component({
   selector: 'app-receipt',
@@ -42,6 +43,7 @@ export class ReceiptComponent {
   receiptForm = new FormGroup({
     user_id: new FormControl('', [Validators.required, Validators.pattern('[0-9]')]),
     description: new FormControl('',/*[Validators.pattern('[a-zA-Z0-9 ]*') ,*/Validators.required),
+    product_id: new FormControl(),
     price: new FormControl('',[
       Validators.pattern(/^\d+(\.\d{1,2})?$/), 
       Validators.required
@@ -65,6 +67,7 @@ export class ReceiptComponent {
   identity = 0;
   userIdGlobal = 1;
 
+  prodIdGlobal = 0
   isFormValid = true;
   insufficientInventory = false;
   itemInventory = 0;
@@ -96,7 +99,7 @@ export class ReceiptComponent {
       
       const receiptLineFromForm: receiptLine = {
         user_id: this.idService.userIDSignal()!,//this.userIdGlobal,//Number(this.receiptForm.value.user_id),
-        product_id: this.identity++,
+        product_id: Number(this.receiptForm.value.product_id),
         description: this.receiptForm.value.description || '',
         price:  Number(this.receiptForm.value.price) ,
         quantity: Number(this.receiptForm.value.quantity) ,
@@ -120,6 +123,7 @@ export class ReceiptComponent {
     this.receiptForm.patchValue({
       user_id: object.user_id.toString(),
       description : object.description,
+      product_id: object.product_id.toString(),
       price : object.price.toString(),
       quantity: '1',
       inventory: object.stock.toString()

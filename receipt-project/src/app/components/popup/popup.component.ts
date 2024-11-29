@@ -56,7 +56,8 @@ export class PopupComponent {
       user_id: this.userIdService.userIDSignal()!,
       lines: [...this.itemList]
     }
-
+    console.log("popup history object")
+    console.log(historyObject)
     this.receiptChange.emit(historyObject);
 
     this.itemList_emmitter.emit(this.itemList);

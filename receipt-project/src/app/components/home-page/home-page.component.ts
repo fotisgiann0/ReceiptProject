@@ -88,7 +88,7 @@ export class HomePageComponent implements OnInit {
         let linesToInsert: insertReceiptLine[] = []
         for (let line of updatedReceipt.lines) {
           let lineObjectToAdd = {
-            productId: 1009,//line.product_id,
+            productId: line.product_id,
             quantity: line.quantity
           }
           linesToInsert.push(lineObjectToAdd)

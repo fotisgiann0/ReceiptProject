@@ -4,6 +4,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Va
 import { CommonModule } from '@angular/common';
 import { ProductsService } from '../../services/Products/products';
 import { map } from 'rxjs/operators';
+import { ChangeStockService } from '../../services/Products/change-stock.service';
 
 @Component({
   selector: 'app-settings',
@@ -20,7 +21,7 @@ export class SettingsComponent implements OnInit {
   updatedStocks: { [key: number]: number } = {};
   errorval = false;
   
-  constructor(private productService: ProductsService){
+  constructor(private productService: ProductsService, private stockService: ChangeStockService){
     
   }
 
@@ -51,7 +52,7 @@ export class SettingsComponent implements OnInit {
   onStockChange(index: number, event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     const parsedValue = parseInt(inputElement.value, 10);
-    if(parsedValue >= 0 && parsedValue <= 100) {
+    if(parsedValue >= 0 && parsedValue <= 1000 ) {
       if (!isNaN(parsedValue)) {
         this.updatedStocks[index] = parsedValue;
       } else {
@@ -68,6 +69,17 @@ export class SettingsComponent implements OnInit {
   updateInvetory():void{
     for (const index in this.updatedStocks) {
       if (this.updatedStocks.hasOwnProperty(index)) {
+
+        console.log(this.products[index]);
+        
+
+        this.stockService.changeStock(
+          this.products[index].product_id, 
+          this.updatedStocks[index] - this.products[index].stock, 
+          this.products[index])
+          .subscribe(product => 
+            console.log(product)
+          );
         this.products[index].stock = this.updatedStocks[index];
       }
     }
