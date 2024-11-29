@@ -28,7 +28,6 @@ export class ReceiptComponent {
 
 
   @Input() userIDSignal!: Signal<number>;
-  //userIDSignal: InputSignal<number> = input.required<number>();
 
   constructor(private route: ActivatedRoute, public idService: userIDService) {
   }
@@ -78,7 +77,9 @@ export class ReceiptComponent {
   }
 
   handleFormSubmit() {
-    const index = this.products.findIndex(item => item.description === this.receiptForm.value.description);
+    const index = this.products.findIndex(item => item.price === Number(this.receiptForm.value.price));
+
+    // const index = this.products.findIndex(item => item.product_id === Number(this.receiptForm.value.product_id));
 
     console.log("Index from products:"+index);
     console.log("Products:");
@@ -176,6 +177,7 @@ export class ReceiptComponent {
     const price = this.receiptForm.value.price
     for(let entry of this.lines) {
       if(body === entry.description && Number(price) === entry.price){
+        // if(this.receiptForm.value.product_id === Number(entry.product_id)){
         entry.quantity += Number(this.receiptForm.value.quantity);
         entry.total = entry.quantity * entry.price;
 

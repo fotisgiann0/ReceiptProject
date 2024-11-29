@@ -28,7 +28,7 @@ export class SearchCatalogComponent implements OnInit {
 
   searchInput: string | number = ''; //input for handle search
 
-  
+  productID = 0
   products:receiptLine[] = [];
   searchList: receiptLine[] = []; 
 
@@ -60,7 +60,10 @@ export class SearchCatalogComponent implements OnInit {
 
 
   formSubmit(){
-    const description = this.searchForm.value.description
+    const description = this.searchForm.value.description;
+
+    console.log("Description: "+ description);
+
     const selected_object = this.products.find(item => item.description === description);
     
     console.log("selected_object: "+selected_object);

@@ -1,27 +1,35 @@
-<div class="register-form">
-    <span>Register Page</span>
+<div class="bg">
+</div>
+<main class="form-signin">
+    <h1 class="h3">Register</h1>
     <form name="" [formGroup]="registerForm" (ngSubmit)="onFormSubmit()">
-        <div class="form-body">
-            <label>
+
+        <div class="form-floating">
+            <input type="number" class="form-control" id="floatingInput" formControlName="emp_id" placeholder="0">
+            <label for="floatingInput">
                 Employee id:
-                <input type="number" formControlName="emp_id" placeholder="0">
             </label>
-            <br/>
-            <label>
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="usernameInput" formControlName="username" placeholder="You know it">
+            <label for="usernameInput">
                 Username:
-                <input type="text" formControlName="username" placeholder="You know it">
             </label>
-            <br/>
-            <label>
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="firstnameInput" formControlName="firstname" placeholder="Be">
+            <label for="firstnameInput">
                 Firstname:
-                <input type="text" formControlName="firstname" placeholder="Be">
             </label>
-            <br/>
-            <label>
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="lastnameInput" formControlName="lastname" placeholder="Brave">
+            <label for="lastnameInput">
                 Lastname:
-                <input type="text" formControlName="lastname" placeholder="Brave">
             </label>
-            <button mat-button type="submit">Register</button>
+        </div>
+        <div class="form-button">
+            <button class="buttons" type="submit">Register</button>
         </div>
     </form>
-</div>
+</main>

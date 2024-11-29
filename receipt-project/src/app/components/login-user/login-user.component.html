@@ -1,4 +1,31 @@
-<span>Login</span>
+<div class="bg">
+</div>
+
+<main class="form-signin">
+  <h1 class="h3">Login</h1>
+  <form name="loginForm" [formGroup]="loginForm" (ngSubmit)="onFormSubmit()">
+    <div class="form-floating">
+      <input type="number" class="form-control" id="floatingInput" formControlName="emp_id" placeholder="0">
+      <label for="floatingInput">
+          Employee id:
+      </label>
+    </div>
+    <div class="form-floating">
+      <input type="text" class="form-control" id="usernameInput" formControlName="username" placeholder="You know it">
+      <label for="usernameInput">
+          Username:
+      </label>
+    </div>
+    <div class="form-button">
+      <button class="buttons" type="submit">Login</button>
+    </div>
+  </form>
+  <div *ngIf="!this.isLoginCredentialsCorrect" style="color:red;">
+    There is no user with those credentials.
+  </div>
+</main>
+
+<!-- <span>Login</span>
 <div class="login-form">
   <form name="registerForm" [formGroup]="loginForm" (ngSubmit)="onFormSubmit()">
     <div class="form-body">
@@ -17,4 +44,4 @@
   <div *ngIf="!this.isLoginCredentialsCorrect" style="color:red;">
     There is no user with those credentials.
   </div>
-</div>
+</div> -->

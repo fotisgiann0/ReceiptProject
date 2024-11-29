@@ -1,3 +1,5 @@
+<div class="bg">
+</div>
     @if(historyList.length > 0) {
     <div>
         <table>
@@ -17,7 +19,7 @@
                         <td class="entry_list">{{entry.date.substring(0,10)}}</td>
                         <td class="entry_list total">{{entry.total}}</td>
                         <td class="entry_list">
-                            <button (click)="showDetails(i)">Λεπτομέρειες</button>
+                            <button class="buttons" (click)="showDetails(i)">Λεπτομέρειες</button>
                             <!-- <history-popup 
                                 [itemList]="entry.lines"
                                 [paid_total]="entry.total"
@@ -33,7 +35,7 @@
         <div>
             <app-listing-input [lines]="historyList[indexForShow].lines" [paid_Total]="historyList[indexForShow].total" [buttonFLag]="false"></app-listing-input>
         </div>
-        <button (click)="cleanUp()">Καθαρισμός</button>
+        <button class="buttons" (click)="cleanUp()">Καθαρισμός</button>
     }}
     @else {
         <div>
