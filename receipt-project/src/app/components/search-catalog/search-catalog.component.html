@@ -11,7 +11,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Select Product</h1>
+          <p class="modal-title fs-5" id="exampleModalLabel">Select Product</p>
         </div>
         <div class="modal-body">
           <div>
@@ -19,16 +19,20 @@
               Browse Catalogue
               <input type="text" id="search_catalogue" [(ngModel)]="searchInput">
             </label>
-            <button type="submit" (click)="searchProducts(this.searchInput)">Search</button>  
+            <button type="submit" class="buttons" (click)="searchProducts(this.searchInput)">Search</button>  
           </div>
-          <form name="searchForm" [formGroup]="searchForm" (ngSubmit)="formSubmit()">
-            <select id="select_product" name="select_product" formControlName="description">
-              @for(item of searchList; track item) {
-                  <option value="{{item.description}}">{{item.description}}, {{item.price}}</option>
-              }
-            </select>
-            <button type="submit" data-bs-dismiss="modal">Confirm Product</button>
-          </form>
+          @if(searchIsFinished){
+            <!-- <section> -->
+              <form name="searchForm" [formGroup]="searchForm" (ngSubmit)="formSubmit()">
+                <select id="select_product" name="select_product" formControlName="description">
+                  @for(item of searchList; track item) {
+                    <option value="{{item.description}}">{{item.description}}, {{item.price}}</option>
+                  }
+                </select>
+                <button type="submit" class="buttons" data-bs-dismiss="modal">Confirm Product</button>
+              </form>
+            <!-- </section> -->
+          }
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Επιστροφή</button>

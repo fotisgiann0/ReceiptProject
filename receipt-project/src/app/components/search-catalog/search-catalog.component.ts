@@ -26,11 +26,13 @@ export class SearchCatalogComponent implements OnInit {
 
   @Output() itemSelected = new EventEmitter<receiptLine>();
 
-  searchInput: string | number = ''; //input for handle search
+  searchInput: string = ''; //input for handle search
 
   productID = 0
   products:receiptLine[] = [];
   searchList: receiptLine[] = []; 
+
+  searchIsFinished: boolean = false;
 
   ngOnInit(){
     let i = 0;
@@ -77,27 +79,30 @@ export class SearchCatalogComponent implements OnInit {
     }
   }
 
-  searchProducts(input: string | number): receiptLine[]{
+  searchProducts(input: string): void{
     let returnObject:receiptLine[] = [];
-    if(typeof(input) === 'number'){
+    if(Number(input)){
       const index = this.products.findIndex(item => item.product_id === Number(input));
 
-      returnObject.push(this.products[index]);
-
-      console.log(returnObject);
-
-      return returnObject;
+      if(this.products[index] === undefined){
+        console.log(`No product found with id ${input}.`);
+      }else{
+        returnObject.push(this.products[index]);
+        this.searchIsFinished = true;
+        this.searchList = returnObject;
+      }
     }else{
       this.products.forEach(element => {
         if(element.description.toLowerCase().includes(input)){
           returnObject.push(element);
         }
       });
-
-      console.log(returnObject);
-     
-      this.searchList = returnObject;
-      return returnObject;
+      if(returnObject.length === 0){
+        console.log(`No products were found with input ${input}.`);
+      }else{
+        this.searchIsFinished = true;
+        this.searchList = returnObject;
+      }
     }
   }
 }

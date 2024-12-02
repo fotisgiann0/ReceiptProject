@@ -6,7 +6,7 @@
         <form name="receiptForm" [formGroup]="receiptForm" (ngSubmit)="handleFormSubmit()">
             <input type="number" hidden="true" formControlName="product_id">
             <div class="form-floating">
-                <input type="number" readonly>
+                <input id="user_id" type="number" readonly>
                 <label for="user_id"> User ID: {{idService.userIDSignal()}}</label>
             </div>
             <div class="form-floating">
