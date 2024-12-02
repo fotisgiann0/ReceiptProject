@@ -10,13 +10,9 @@ export class RegisterNewUserService {
 
   constructor(private http: HttpClient) { }
 
-  
   postUser(employee: Employee) {
     console.log(employee)
-    return this.http.post<Employee>("https://localhost:7006/users/", employee)
-    .subscribe(data => {
-      console.log(data);
-    });
+    return this.http.post<Employee>("https://localhost:7006/users/", employee);
   }
 
   getUser(emp_id: number) { //: Observable<Employee>

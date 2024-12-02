@@ -43,9 +43,6 @@ export class LoginUserComponent {
           console.log(this.user_id)
           this.idService.setID(data.empId);
           this.router.navigate(['/home']);
-          //   , {
-          //   queryParams: { user_id: this.user_id }
-          // });
           
           console.log(data);
         }else{
