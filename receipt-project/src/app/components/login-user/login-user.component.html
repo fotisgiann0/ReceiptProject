@@ -18,11 +18,13 @@
     </div>
     <div class="form-button">
       <button class="buttons" type="submit">Login</button>
+      <button class="buttons" type="button" (click)="returnToWelcome()">Return</button>
     </div>
   </form>
   <div *ngIf="!this.isLoginCredentialsCorrect" style="color:red;">
     There is no user with those credentials.
   </div>
+  
 </main>
 
 <!-- <span>Login</span>

@@ -51,4 +51,7 @@ export class LoginUserComponent {
     })
     }
   }
+  returnToWelcome() {
+    this.router.navigate(['/']);
+  }
 }

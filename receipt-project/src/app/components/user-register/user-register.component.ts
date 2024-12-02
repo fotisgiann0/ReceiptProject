@@ -47,4 +47,8 @@ export class UserRegisterComponent implements OnDestroy {
   ngOnDestroy(){
     this.subscription.unsubscribe();
   }
+  returnToWelcome() {
+    this.router.navigate(['/']);
+  }
+
 } 
