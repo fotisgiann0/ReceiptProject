@@ -1,35 +1,37 @@
 <div class="bg">
 </div>
-<main class="form-signin">
-<div class="settings">
-   
-    <form name="settingsForm">
-        <div *ngFor="let entry of this.products; let i = index">
-            <label>
-                {{entry.description}} stock: 
-                <div class="form-floating">
-                <input 
-                    class="form-control"
-                    type="number"
-                    min="0"  
-                    max="1000"
-                    step="1" 
-                    [value]="entry.stock"
-                    (change)="onStockChange(i, $event)"
-                /> 
+<main>
+    <div class="settings-body-upper">
+        <form name="settingsForm">
+            <div class="grid-container">
+                <div *ngFor="let entry of this.products; let i = index" class="grid-item">
+                    <label>
+                        {{entry.description}} stock: 
+                        <div class="form-floating">
+                            <input 
+                            class="form-control"
+                            type="number"
+                            min="0"  
+                            max="1000"
+                            step="1" 
+                            [value]="entry.stock"
+                            (change)="onStockChange(i, $event)"
+                            /> 
+                        </div>
+                    </label>
+                    <button type="button" class="buttons" (click)="updateInvetory()">Ενημέρωση</button>
+                </div>
             </div>
-            </label>
-           
-            <button type="button" (click)="updateInvetory()">Update Invetory</button>
-           
-
+        </form>
+        <div *ngIf="errorval" class="invalid_input">
+            Error: Invalid Input, Stock needs to be positive and no more than 100 items
         </div>
-    </form>
-</div>
-<div *ngIf="errorval" class="invalid_input">Error: Invalid Input, Stock needs to be positive and no more than 100 items</div>
-<div role="alert">
-    @for(entry of this.products; track entry){
-        <p> {{entry.description}} inventory: {{ entry.stock }}</p>
-    }
-</div>
+    </div>
+    <div class="settings-body-lower">
+        <div role="alert">
+            @for(entry of this.products; track entry){
+                <p> {{entry.description}} inventory: {{ entry.stock }}</p>
+            }
+        </div>
+    </div>
 </main>
