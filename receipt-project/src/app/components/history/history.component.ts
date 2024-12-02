@@ -20,6 +20,7 @@ import { Lines } from '../../Interfaces/linesInterface';
 export class HistoryComponent implements OnInit {
   constructor(private allReceiptsService: AllReceiptsService){}
   ngOnInit(): void {
+    this.historyList = []
     let i = 0;
     this.allReceiptsService.getReceipts()
     .pipe(
