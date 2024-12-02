@@ -6,6 +6,9 @@ import { CommonModule } from '@angular/common';
 import { PopupComponent } from '../popup/popup.component';
 import { HistoryPopupComponent } from '../history-pop-up/history-pop-up.component';
 import { ListingInputComponent } from "../listing-input/listing-input.component";
+import { AllReceiptsService } from '../../services/AllReceipts/all-receipts.service';
+import { map } from 'rxjs';
+import { Lines } from '../../Interfaces/linesInterface';
 
 @Component({
   selector: 'app-history',
@@ -14,7 +17,46 @@ import { ListingInputComponent } from "../listing-input/listing-input.component"
   templateUrl: './history.component.html',
   styleUrl: './history.component.css'
 })
-export class HistoryComponent  {
+export class HistoryComponent implements OnInit {
+  constructor(private allReceiptsService: AllReceiptsService){}
+  ngOnInit(): void {
+    let i = 0;
+    this.allReceiptsService.getReceipts()
+    .pipe(
+      map(receipts => receipts.filter(p => i++ < 10))
+    )
+    .subscribe(receiptArray => {
+      receiptArray.forEach(receipt => {
+        console.log(receipt)
+       let lines: receiptLine[] = []
+       console.log(receipt.fpa)
+       receipt.receiptLines.forEach(receiptlines => {
+        const newLine: receiptLine = {
+          user_id: 0,
+          quantity: receiptlines.quantity,
+          total: ((receiptlines.fpa + 100) * receiptlines.freight * receiptlines.quantity) / 100,  
+          product_id: receiptlines.productId,
+          description: receiptlines.productId.toString(),
+          price: receiptlines.freight,
+          stock: 0
+        }
+        lines.push(newLine)
+       })
+        const newReceipt: IHistory = {
+          receipt_id: receipt.orderId,
+          date: receipt.recTime,
+          total: receipt.totalCost,
+          user_id: receipt.empiId,
+          lines: lines
+          
+        }
+        this.historyList.push(newReceipt);
+      })
+    })
+    console.log(this.historyList)
+ 
+  }
+
   @Input({
     required: true,
   }) historyList:IHistory[] = [];
