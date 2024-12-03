@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -131,6 +132,7 @@ namespace ReceiptProject.Endpoints
         }
 
 
+        [Authorize]
         internal static async Task<IResult> AddAnOrderTesting(
             ReceiptDbContext context, InsertReceipt order)
         {

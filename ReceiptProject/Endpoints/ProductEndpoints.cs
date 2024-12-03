@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ReceiptProject.Endpoints.Internal;
@@ -59,6 +60,7 @@ namespace ReceiptProject.Endpoints
                .Produces(404).WithTags("Product");
         }
 
+        [Authorize]
         internal static async Task<IResult> GetProducts(
           ReceiptDbContext context)
         {
