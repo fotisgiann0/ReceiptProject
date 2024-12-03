@@ -1,5 +1,7 @@
-<div class="bg">
+<div class="bg" hidden="true">
 </div>
+
+<div *ngIf="authService.currentUserTokenSignal()">
     @if(historyList.length > 0) {
     <div>
         <table>
@@ -12,21 +14,15 @@
                     </tr>
             </thead>
             <tbody>
-                <!-- @for(entry of historyList; track entry) { -->
-                    <tr *ngFor="let entry of historyList; let i = index" class="entry_list">
-                        <td class="entry_list">{{entry.receipt_id}}</td>
-                        <td class="entry_list"> {{entry.user_id}}</td>
-                        <td class="entry_list">{{entry.date.substring(0,10)}}</td>
-                        <td class="entry_list total">{{entry.total}}</td>
-                        <td class="entry_list">
-                            <button class="buttons" (click)="showDetails(i)">Λεπτομέρειες</button>
-                            <!-- <history-popup 
-                                [itemList]="entry.lines"
-                                [paid_total]="entry.total"
-                            ></history-popup> -->
-                        </td>
-                    </tr>
-                <!-- } -->
+                <tr *ngFor="let entry of historyList; let i = index" class="entry_list">
+                    <td class="entry_list">{{entry.receipt_id}}</td>
+                    <td class="entry_list"> {{entry.user_id}}</td>
+                    <td class="entry_list">{{entry.date.substring(0,10)}}</td>
+                    <td class="entry_list total">{{entry.total}}</td>
+                    <td class="entry_list">
+                        <button class="buttons" (click)="showDetails(i)">Λεπτομέρειες</button>
+                    </td>
+                </tr>
             </tbody>
         </table>      
     </div>
@@ -42,3 +38,4 @@
             <h1>Empty History</h1>
         </div>
     }
+</div>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { receiptLine } from '../../Interfaces/receiptLineInterface';
 import { IHistory } from '../../Interfaces/historyInterface';
 import { listenerCount } from 'process';
@@ -9,6 +9,8 @@ import { ListingInputComponent } from "../listing-input/listing-input.component"
 import { AllReceiptsService } from '../../services/AllReceipts/all-receipts.service';
 import { map } from 'rxjs';
 import { Lines } from '../../Interfaces/linesInterface';
+import { AuthGuard } from '../../services/Authentication/auth-guard.service';
+import { AuthService } from '../../services/Authentication/auth-service.service';
 
 @Component({
   selector: 'app-history',
@@ -19,12 +21,13 @@ import { Lines } from '../../Interfaces/linesInterface';
 })
 export class HistoryComponent implements OnInit {
   constructor(private allReceiptsService: AllReceiptsService){}
+  authService = inject(AuthService);
   ngOnInit(): void {
     this.historyList = []
     let i = 0;
     this.allReceiptsService.getReceipts()
     .pipe(
-      map(receipts => receipts.filter(p => i++ < 10))
+      map(receipts => receipts.filter(p => i++ < 30))
     )
     .subscribe(receiptArray => {
       receiptArray.forEach(receipt => {

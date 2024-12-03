@@ -8,32 +8,31 @@ import { ListingInputComponent } from '../listing-input/listing-input.component'
 import { PopupComponent } from '../popup/popup.component';
 import { receiptLine } from '../../Interfaces/receiptLineInterface';
 import { SearchCatalogComponent } from '../search-catalog/search-catalog.component';
-// import data from '../../data/products.json';
 import receipts from '../../data/receipts.json'
 import { SettingsComponent } from '../settings/settings.component';
 import { HistoryComponent } from '../history/history.component';
 import { IHistory } from '../../Interfaces/historyInterface';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 import { ActivatedRoute } from '@angular/router';
 import { Receipt } from '../../Interfaces/receiptInterface';
 import { InsertReceipt } from '../../Interfaces/insertReceiptInterface';
 import { insertReceiptLine } from '../../Interfaces/insertReceiptLineInterface';
 import { ReceiptService } from '../../services/Receipt/receipt-service';
+import { AuthGuard } from '../../services/Authentication/auth-guard.service';
+import { AuthService } from '../../services/Authentication/auth-service.service';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [CompHeaderComponent, CompMenuComponent, CompFooterComponent, RouterOutlet, HttpClientModule],
+  imports: [CompHeaderComponent, CompMenuComponent, CompFooterComponent, RouterOutlet, HttpClientModule, CommonModule],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
 })
 export class HomePageComponent implements OnInit {
   userIDSignal = signal<number>(0);
- // userIDSignal: InputSignal<number> = input.required<number>();
-  // public data: any;
-  // products: receiptLine[] = data;
   
   historyList: IHistory[] = [];
 
@@ -57,7 +56,10 @@ export class HomePageComponent implements OnInit {
       },
     ],
   });
-  constructor(private http: HttpClient, private route: ActivatedRoute, private rec: ReceiptService) {
+  constructor(private http: HttpClient, 
+    private route: ActivatedRoute, 
+    private rec: ReceiptService,
+    public authService: AuthService) {
   }
 
   ngOnInit() {

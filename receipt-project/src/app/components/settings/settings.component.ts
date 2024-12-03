@@ -1,10 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { receiptLine } from '../../Interfaces/receiptLineInterface';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ProductsService } from '../../services/Products/products';
 import { map } from 'rxjs/operators';
 import { ChangeStockService } from '../../services/Products/change-stock.service';
+import { AuthGuard } from '../../services/Authentication/auth-guard.service';
+import { AuthService } from '../../services/Authentication/auth-service.service';
 
 @Component({
   selector: 'app-settings',
@@ -16,6 +18,7 @@ import { ChangeStockService } from '../../services/Products/change-stock.service
 export class SettingsComponent implements OnInit {  
   products:receiptLine[] = [];
 
+  authService = inject(AuthService);
   settingsForm!: FormGroup;
 
   updatedStocks: { [key: number]: number } = {};

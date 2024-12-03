@@ -13,6 +13,8 @@ import { ActivatedRoute } from '@angular/router';
 import { IdentityService } from '../../services/Identity/identity.service';
 import { userIDService } from '../../services/Signals/userID';
 import { lutimes } from 'fs';
+import { AuthGuard } from '../../services/Authentication/auth-guard.service';
+import { AuthService } from '../../services/Authentication/auth-service.service';
 
 @Component({
   selector: 'app-receipt',
@@ -29,7 +31,9 @@ export class ReceiptComponent {
 
   @Input() userIDSignal!: Signal<number>;
 
-  constructor(private route: ActivatedRoute, public idService: userIDService) {
+  constructor(private route: ActivatedRoute, 
+    public idService: userIDService,
+    public authService: AuthService) {
   }
   
   @Input() receiptId!: number;

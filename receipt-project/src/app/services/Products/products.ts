@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Product } from "../../Interfaces/productInterface";
 import { Observable } from "rxjs";
 @Injectable({
@@ -20,6 +20,12 @@ export class ProductsService {
     }
 
     getProducts(): Observable<Product[]>{
-        return this.http.get<Product[]>("https://localhost:7006/products/");
+        const token = localStorage.getItem('authToken');
+
+        const headers = new HttpHeaders({
+          Authorization: `Bearer ${token}`,
+        });
+          
+        return this.http.get<Product[]>("https://localhost:7006/products/", { headers });
     }
 }

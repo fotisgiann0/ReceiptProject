@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Employee } from '../../Interfaces/employeeInterface';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RegisterNewUserService {
-
+  private apiUrl = 'https://localhost:7006/users';
   constructor(private http: HttpClient) { }
 
   postUser(employee: Employee) {
@@ -15,8 +15,19 @@ export class RegisterNewUserService {
     return this.http.post<Employee>("https://localhost:7006/users/", employee);
   }
 
-  getUser(emp_id: number) { //: Observable<Employee>
-    return this.http.get<Employee>(`https://localhost:7006/users/${emp_id}`);
+  getUser(empId: number) {
+    const token = localStorage.getItem('authToken');
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.get<Employee>(`${this.apiUrl}/${empId}`, { headers });
+    
   }
   
+  getUserForLogin(empID: number): Observable<Employee>{
+    return this.http.get<Employee>(`https://localhost:7006/users/${empID}`);
+  }
+
+
 }

@@ -16,8 +16,8 @@
 }
 
 .main-layout {
-display: flex;
-flex: 1;
+  display: flex;
+  flex: 1;
 }
 
 .menu {
@@ -39,6 +39,9 @@ left: 250px;
 right: 200px;
 top: 56px;
 bottom: 90px;
+
+overflow-y: auto;
+scrollbar-width: none;
 }
 
 app-comp-header {

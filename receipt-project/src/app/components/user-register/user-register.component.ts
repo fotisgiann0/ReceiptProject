@@ -37,6 +37,9 @@ export class UserRegisterComponent implements OnDestroy {
     const responseSubscription = this.employeeService.postUser(newUser).subscribe(data => {
       console.log(data);
       this.registerForm.reset();
+
+      // localStorage.setItem
+
     });
 
     this.subscription.add(responseSubscription);

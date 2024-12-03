@@ -6,6 +6,9 @@ import { RegisterNewUserService } from '../../services/Register/register-new-use
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { userIDService } from '../../services/Signals/userID';
+import { HttpClient } from '@angular/common/http';
+import { AuthGuard } from '../../services/Authentication/auth-guard.service';
+import { AuthService } from '../../services/Authentication/auth-service.service';
 
 @Component({
   selector: 'app-login-user',
@@ -24,32 +27,86 @@ export class LoginUserComponent {
 
   user_id: number = 10;
 
-  constructor(private employeeService: RegisterNewUserService, private router: Router, private idService:userIDService) {}
-  employee$!: Observable<Employee>;
+  constructor(private employeeService: RegisterNewUserService, 
+    private router: Router, 
+    private idService:userIDService, 
+    private http: HttpClient,
+    private authService: AuthService) {}
+  
+    employee$!: Observable<Employee>;
   onFormSubmit(){
-    const emp_id = Number(this.loginForm.value.emp_id)
+    const emp_id = this.loginForm.value.emp_id
     const username = this.loginForm.value.username
-    this.employee$ =  this.employeeService.getUser(emp_id)
+    if (!this.loginForm.value.emp_id || !username) {
+      this.isLoginCredentialsCorrect = false;
+      return;
+    }
+    
+    this.employee$ =  this.employeeService.getUserForLogin(Number(emp_id))
     if(this.employee$ === null) {
       this.isLoginCredentialsCorrect = false 
+      return;
     }
     else {
       this.employee$.subscribe(data => {
-        if(data.empId === emp_id && data.username === username) {
+        if(data.empId === Number(emp_id) && data.username === username) {
           this.isLoginCredentialsCorrect = true
-
           this.user_id = data.empId;
-          console.log("sending from log in to home")
-          console.log(this.user_id)
           this.idService.setID(data.empId);
-          this.router.navigate(['/home']);
-          
-          console.log(data);
         }else{
           this.isLoginCredentialsCorrect = false
+          return;
         }
-    })
+      })
+      if(!this.isLoginCredentialsCorrect){
+        return;
+      }
     }
+
+    console.log("here")
+    this.http.post<{ token: string }>('https://localhost:7006/login', { "username": `${username}`, "password": `${this.idService.userIDSignal()}`}).subscribe({
+      next: (response) => {
+        const token = response.token;
+
+        // Store the token in localStorage
+        if(localStorage) {
+          localStorage.setItem('authToken', token);
+          this.authService.currentUserTokenSignal.set(token);
+  
+          // Set login state and navigate to the home page
+          this.isLoginCredentialsCorrect = true;
+          this.router.navigate(['/home']);
+        }
+ 
+      },
+      error: (err) => {
+        console.error('Login failed', err);
+        this.isLoginCredentialsCorrect = false;
+      }
+    });
+
+
+    // this.employee$ =  this.employeeService.getUser(emp_id)
+    // if(this.employee$ === null) {
+    //   this.isLoginCredentialsCorrect = false 
+    // }
+    // else {
+    //   this.employee$.subscribe(data => {
+    //     if(data.empId === emp_id && data.username === username) {
+    //       this.isLoginCredentialsCorrect = true
+
+    //       this.user_id = data.empId;
+    //       console.log("sending from log in to home")
+    //       console.log(this.user_id)
+    //       this.idService.setID(data.empId);
+    //       this.router.navigate(['/home']);
+          
+    //       console.log(data);
+    //     }else{
+    //       this.isLoginCredentialsCorrect = false
+    //     }
+    // })
+    // }
   }
   returnToWelcome() {
     this.router.navigate(['/']);

@@ -1,54 +1,56 @@
-<main class="form-signin">
-    <h1>Cash Register</h1>
-        <div class="catalog-container">
-            <app-search-catalog (itemSelected)="fillFormAfterSearch($event)" (productsChange)="getProductList($event)" ></app-search-catalog> 
-        </div>
-        <form name="receiptForm" [formGroup]="receiptForm" (ngSubmit)="handleFormSubmit()">
-            <input type="number" hidden="true" formControlName="product_id">
-            <div class="form-floating">
-                <input id="user_id" type="number" readonly>
-                <label for="user_id"> User ID: {{idService.userIDSignal()}}</label>
+<div *ngIf="authService.currentUserTokenSignal()">
+    <main class="form-signin">
+        <h1>Cash Register</h1>
+            <div class="catalog-container">
+                <app-search-catalog (itemSelected)="fillFormAfterSearch($event)" (productsChange)="getProductList($event)" ></app-search-catalog> 
             </div>
-            <div class="form-floating">
-                <input type="text" id="description" formControlName="description"   readonly/>
-                <label for="description">Input</label>
-            </div>
-            <div class="form-floating">
-                <input type="text" id="price" formControlName="price" readonly/>
-                <label for="price">Price</label>
-            </div>
-            <div class="form-floating">
-                <input type="number" id="quantity" formControlName="quantity"  min="1"  step="1" value="1"/>
-                <label for="description">Quantity</label>
-            </div>
-            <div class="form-button">
-                <button type="submit" class="buttons" [disabled]="this.receiptForm.invalid">Προσθήκη:</button>
-                <button type="button" class="buttons" (click)="resetLines()">Καθαρισμός λίστας</button>
-                <button type="reset" class="buttons" (click)="resetForm()">Καθαρισμός φόρμας</button>
-            </div>
-        </form>
-</main>
-@if(this.isFormValid === false || this.insufficientInventory == true){
-<p>Form is Invalid</p>
-<div class="alert alert-danger" role="alert">
-    The requested quantity is not available. Remaining inventory: {{this.itemInventory}}.
-</div>
-}
-@if(paidTotal > 0){
-<div>
-    <div class="paid">
-        <h1 id="paid_total">Πληρωτέο: {{formatter.format(paidTotal)}}</h1>
+            <form name="receiptForm" [formGroup]="receiptForm" (ngSubmit)="handleFormSubmit()">
+                <input type="number" hidden="true" formControlName="product_id">
+                <div class="form-floating">
+                    <input id="user_id" type="number" readonly>
+                    <label for="user_id"> User ID: {{idService.userIDSignal()}}</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" id="description" formControlName="description"   readonly/>
+                    <label for="description">Input</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" id="price" formControlName="price" readonly/>
+                    <label for="price">Price</label>
+                </div>
+                <div class="form-floating">
+                    <input type="number" id="quantity" formControlName="quantity"  min="1"  step="1" value="1"/>
+                    <label for="description">Quantity</label>
+                </div>
+                <div class="form-button">
+                    <button type="submit" class="buttons" [disabled]="this.receiptForm.invalid">Προσθήκη:</button>
+                    <button type="button" class="buttons" (click)="resetLines()">Καθαρισμός λίστας</button>
+                    <button type="reset" class="buttons" (click)="resetForm()">Καθαρισμός φόρμας</button>
+                </div>
+            </form>
+    </main>
+    @if(this.isFormValid === false || this.insufficientInventory == true){
+    <p>Form is Invalid</p>
+    <div class="alert alert-danger" role="alert">
+        The requested quantity is not available. Remaining inventory: {{this.itemInventory}}.
     </div>
-    <app-popup 
-        [itemList]="lines"
-        [(paid_total)]="paidTotal" 
-        [(receipt)]="receiptSignal!" 
-        (receiptChange)="handlePopupReceiptChange($event)"
-        
-        [receiptId] = "this.receiptId">
-    </app-popup>
+    }
+    @if(paidTotal > 0){
+    <div>
+        <div class="paid">
+            <h1 id="paid_total">Πληρωτέο: {{formatter.format(paidTotal)}}</h1>
+        </div>
+        <app-popup 
+            [itemList]="lines"
+            [(paid_total)]="paidTotal" 
+            [(receipt)]="receiptSignal!" 
+            (receiptChange)="handlePopupReceiptChange($event)"
+            
+            [receiptId] = "this.receiptId">
+        </app-popup>
+    </div>
+    }
+    <section class="list-container">
+        <app-listing-input [lines]="lines" [(paid_Total)]="paidTotal" [buttonFLag]="true"/> 
+    </section>
 </div>
-}
-<section class="list-container">
-<app-listing-input [lines]="lines" [(paid_Total)]="paidTotal" [buttonFLag]="true"/> 
-</section>

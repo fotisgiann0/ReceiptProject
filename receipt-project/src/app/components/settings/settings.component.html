@@ -1,5 +1,6 @@
 <div class="bg">
 </div>
+<div *ngIf="authService.currentUserTokenSignal()">
 <main>
     <div class="settings-body-upper">
         <form name="settingsForm">
@@ -35,3 +36,4 @@
         </div>
     </div>
 </main>
+</div>
