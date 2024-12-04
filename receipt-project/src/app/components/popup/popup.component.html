@@ -1,4 +1,5 @@
 <!-- Button trigger modal -->
+<div *ngIf="authService.currentUserTokenSignal()">
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">
     Έκδοση Απόδειξης
   </button>
@@ -23,3 +24,4 @@
       </div>
     </div>
   </div>
+</div>

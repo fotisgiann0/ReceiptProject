@@ -22,16 +22,14 @@
             <button type="submit" class="buttons" (click)="searchProducts(this.searchInput)">Search</button>  
           </div>
           @if(searchIsFinished){
-            <!-- <section> -->
               <form name="searchForm" [formGroup]="searchForm" (ngSubmit)="formSubmit()">
-                <select id="select_product" name="select_product" formControlName="description">
+                <select id="select_product" name="select_product" formControlName="product_id" (change)="retrieveItemFromChoice($event)">
                   @for(item of searchList; track item) {
-                    <option value="{{item.description}}">{{item.description}}, {{item.price}}</option>
+                    <option value="{{item.product_id}}">{{item.description}}, {{item.price}}</option>
                   }
                 </select>
                 <button type="submit" class="buttons" data-bs-dismiss="modal">Confirm Product</button>
               </form>
-            <!-- </section> -->
           }
         </div>
         <div class="modal-footer">

@@ -1,10 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output, Signal } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output, Signal } from '@angular/core';
 import { receiptLine } from '../../Interfaces/receiptLineInterface';
 import { ListingInputComponent } from "../listing-input/listing-input.component";
 import { IHistory } from '../../Interfaces/historyInterface';
 import { IdentityService } from '../../services/Identity/identity.service';
 import { CommonModule } from '@angular/common';
 import { userIDService } from '../../services/Signals/userID';
+import { AuthService } from '../../services/Authentication/auth-service.service';
+
 
 @Component({
   selector: 'app-popup',
@@ -15,7 +17,7 @@ import { userIDService } from '../../services/Signals/userID';
 })
 export class PopupComponent {
 
- 
+  authService = inject(AuthService);
   @Input({
     required: true,
   }) itemList!: receiptLine[];

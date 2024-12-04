@@ -34,16 +34,17 @@ export class LoginUserComponent {
     private authService: AuthService) {}
   
     employee$!: Observable<Employee>;
-  onFormSubmit(){
+  async onFormSubmit(){
     const emp_id = this.loginForm.value.emp_id
     const username = this.loginForm.value.username
-    if (!this.loginForm.value.emp_id || !username) {
+    if ((emp_id === null || Number(emp_id) < 0)  || !username) {
       this.isLoginCredentialsCorrect = false;
       return;
     }
     
-    this.employee$ =  this.employeeService.getUserForLogin(Number(emp_id))
-    if(this.employee$ === null) {
+    this.employee$ =  await this.employeeService.getUserForLogin(Number(emp_id))
+    
+    if(this.employee$ === null || this.employee$ === undefined) {  
       this.isLoginCredentialsCorrect = false 
       return;
     }
@@ -57,57 +58,33 @@ export class LoginUserComponent {
           this.isLoginCredentialsCorrect = false
           return;
         }
-      })
-      if(!this.isLoginCredentialsCorrect){
-        return;
-      }
-    }
-
-    console.log("here")
-    this.http.post<{ token: string }>('https://localhost:7006/login', { "username": `${username}`, "password": `${this.idService.userIDSignal()}`}).subscribe({
-      next: (response) => {
-        const token = response.token;
-
-        // Store the token in localStorage
-        if(localStorage) {
-          localStorage.setItem('authToken', token);
-          this.authService.currentUserTokenSignal.set(token);
-  
-          // Set login state and navigate to the home page
-          this.isLoginCredentialsCorrect = true;
-          this.router.navigate(['/home']);
+        
+        if(this.isLoginCredentialsCorrect) {
+          this.http.post<{ token: string }>('https://localhost:7006/login', { "username": `${username}`, "password": `${this.idService.userIDSignal()}`}).subscribe({
+            next: (response) => {
+              const token = response.token;
+      
+              // Store the token in localStorage
+              if(localStorage) {
+                localStorage.setItem('authToken', token);
+                this.authService.currentUserTokenSignal.set(token);
+        
+                // Set login state and navigate to the home page
+                this.isLoginCredentialsCorrect = true;
+                this.router.navigate(['/home']);
+              }
+       
+            },
+            error: (err) => {
+              console.error('Login failed', err);
+              this.isLoginCredentialsCorrect = false;
+            }
+          });
         }
- 
-      },
-      error: (err) => {
-        console.error('Login failed', err);
-        this.isLoginCredentialsCorrect = false;
-      }
-    });
-
-
-    // this.employee$ =  this.employeeService.getUser(emp_id)
-    // if(this.employee$ === null) {
-    //   this.isLoginCredentialsCorrect = false 
-    // }
-    // else {
-    //   this.employee$.subscribe(data => {
-    //     if(data.empId === emp_id && data.username === username) {
-    //       this.isLoginCredentialsCorrect = true
-
-    //       this.user_id = data.empId;
-    //       console.log("sending from log in to home")
-    //       console.log(this.user_id)
-    //       this.idService.setID(data.empId);
-    //       this.router.navigate(['/home']);
-          
-    //       console.log(data);
-    //     }else{
-    //       this.isLoginCredentialsCorrect = false
-    //     }
-    // })
-    // }
+      })
+    }
   }
+  
   returnToWelcome() {
     this.router.navigate(['/']);
   }

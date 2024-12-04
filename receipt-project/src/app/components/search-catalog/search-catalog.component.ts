@@ -19,7 +19,8 @@ export class SearchCatalogComponent implements OnInit {
   }
 
   searchForm = new FormGroup({
-    description: new FormControl('')
+    // description: new FormControl(''),
+    product_id: new FormControl('')
   })
 
   @Output() productsChange = new EventEmitter<receiptLine[]>();
@@ -27,6 +28,8 @@ export class SearchCatalogComponent implements OnInit {
   @Output() itemSelected = new EventEmitter<receiptLine>();
 
   searchInput: string = ''; //input for handle search
+
+  selectedObject: receiptLine | null = null;
 
   productID = 0
   products:receiptLine[] = [];
@@ -62,21 +65,23 @@ export class SearchCatalogComponent implements OnInit {
 
 
   formSubmit(){
-    const description = this.searchForm.value.description;
+    // const description = this.searchForm.value.description;
 
-    console.log("Description: "+ description);
-
-    const selected_object = this.products.find(item => item.description === description);
+    // const selected_object = this.products.find(item => item.description === description);
     
-    console.log("selected_object: "+selected_object);
-    console.log(selected_object)
-    
-    if(selected_object){
-      this.itemSelected.emit(selected_object);
+    if(this.selectedObject){
+      this.itemSelected.emit(this.selectedObject);
       this.productsChange.emit(this.products);
     }else{
-      console.log("error:" +typeof(selected_object));
+      console.log("error:" +typeof(this.selectedObject));
     }
+  }
+
+  retrieveItemFromChoice(event: Event){
+    const target = event.target as HTMLSelectElement;
+    const value = target.value;
+
+    this.selectedObject = this.products.find(item => item.product_id === Number(value))!;
   }
 
   searchProducts(input: string): void{

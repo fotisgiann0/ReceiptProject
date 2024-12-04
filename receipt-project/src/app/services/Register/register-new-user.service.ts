@@ -25,8 +25,8 @@ export class RegisterNewUserService {
     
   }
   
-  getUserForLogin(empID: number): Observable<Employee>{
-    return this.http.get<Employee>(`https://localhost:7006/users/${empID}`);
+  async getUserForLogin(empID: number): Promise<Observable<Employee>>{
+    return await this.http.get<Employee>(`https://localhost:7006/users/${empID}`);
   }
 
 

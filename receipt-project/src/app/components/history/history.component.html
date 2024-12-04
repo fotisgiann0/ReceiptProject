@@ -1,9 +1,9 @@
 <div class="bg" hidden="true">
 </div>
-
+<div class="contains_both">
 <div *ngIf="authService.currentUserTokenSignal()">
     @if(historyList.length > 0) {
-    <div>
+    <div class="left_side">
         <table>
             <thead>
                 <tr class="entry_list">
@@ -28,14 +28,17 @@
     </div>
     @if (details === true) 
     {
+        <div class="float_right">
         <div>
             <app-listing-input [lines]="historyList[indexForShow].lines" [paid_Total]="historyList[indexForShow].total" [buttonFLag]="false"></app-listing-input>
         </div>
         <button class="buttons" (click)="cleanUp()">Καθαρισμός</button>
+        </div>
     }}
     @else {
         <div>
             <h1>Empty History</h1>
         </div>
     }
+</div>
 </div>
