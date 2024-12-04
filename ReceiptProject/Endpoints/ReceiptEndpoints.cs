@@ -164,8 +164,8 @@ namespace ReceiptProject.Endpoints
                 var prod = await context.Products.FindAsync(rec_line.ProductId);
                 rec_line.Fpa = prod.FpaCategory;
                 rec_line.Freight = prod.Price * rec_line.Quantity.Value;
-                fpa_sum += rec_line.Freight.Value * rec_line.Fpa.Value  * rec_line.Quantity.Value / 100;
-                freight_sum += rec_line.Freight.Value * rec_line.Quantity.Value;
+                fpa_sum += rec_line.Freight.Value * rec_line.Fpa.Value / 100;// * rec_line.Quantity.Value / 100;
+                freight_sum += rec_line.Freight.Value;// * rec_line.Quantity.Value;
                 prod.Inventory -= rec_line.Quantity;
 
                 // context.Products.Update(prod);
