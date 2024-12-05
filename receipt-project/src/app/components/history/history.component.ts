@@ -33,10 +33,9 @@ export class HistoryComponent implements OnInit {
       receiptArray.forEach(receipt => {
         console.log(receipt)
        let lines: receiptLine[] = []
-       console.log(receipt.fpa)
        receipt.receiptLines.forEach(receiptlines => {
         const newLine: receiptLine = {
-          user_id: 0,
+          user_id: receipt.empId,
           quantity: receiptlines.quantity,
           total: ((receiptlines.fpa + 100) * receiptlines.freight * receiptlines.quantity) / 100,  
           product_id: receiptlines.productId,
@@ -50,10 +49,11 @@ export class HistoryComponent implements OnInit {
           receipt_id: receipt.orderId,
           date: receipt.recTime,
           total: receipt.totalCost,
-          user_id: receipt.empiId,
+          user_id: receipt.empId,
           lines: lines
           
         }
+        console.log(newReceipt);
         this.historyList.push(newReceipt);
       })
     })

@@ -4,7 +4,7 @@ import { Lines } from "./linesInterface";
 export interface FullReceipt {
     orderId: number,
     registerId: number,
-    empiId: number,
+    empId: number,
     recTime: string,
     freight: number,
     fpa: number,

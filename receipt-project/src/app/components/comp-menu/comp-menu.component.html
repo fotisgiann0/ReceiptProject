@@ -14,5 +14,8 @@
                 <button mat-menu-item routerLink="/home/settings">Αποθέματα</button>
             </mat-menu>
         </li>
+        <li>
+            <button (click)="authService.logout()"  mat-button routerLink="/">Αποσύνδεση</button>
+        </li>
     </ul>
 </nav>

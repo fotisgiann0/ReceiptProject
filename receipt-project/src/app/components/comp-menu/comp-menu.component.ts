@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 // import { MatBodyComponent } from './menu-body/menu-body.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule} from '@angular/material/button';
+import { AuthService } from '../../services/Authentication/auth-service.service';
 
 @Component({
   selector: 'app-comp-menu',
@@ -12,4 +13,5 @@ import { MatButtonModule} from '@angular/material/button';
 })
 export class CompMenuComponent {
 
+  authService = inject(AuthService)
 }
