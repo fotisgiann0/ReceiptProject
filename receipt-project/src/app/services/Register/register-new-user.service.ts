@@ -11,18 +11,11 @@ export class RegisterNewUserService {
   constructor(private http: HttpClient) { }
 
   postUser(employee: Employee) {
-    console.log(employee)
     return this.http.post<Employee>("https://localhost:7006/users/", employee);
   }
 
   getUser(empId: number) {
-    const token = localStorage.getItem('authToken');
-
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
-    return this.http.get<Employee>(`${this.apiUrl}/${empId}`, { headers });
-    
+    return this.http.get<Employee>(`${this.apiUrl}/${empId}`);
   }
   
   async getUserForLogin(empID: number): Promise<Observable<Employee>>{

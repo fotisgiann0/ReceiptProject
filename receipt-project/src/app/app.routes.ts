@@ -6,13 +6,13 @@ import { WelcomePageComponent } from './components/welcome-page/welcome-page.com
 import { UserRegisterComponent } from './components/user-register/user-register.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { LoginUserComponent } from './components/login-user/login-user.component';
-import { AuthGuard } from './services/Authentication/auth-guard.service';
+//import { AuthGuard } from './services/Authentication/auth-guard.service';
 
 export const routes: Routes = [
     { path: '', component: WelcomePageComponent},
     { 
         path: 'home', 
-        component: HomePageComponent, canActivate: [AuthGuard] ,
+        component: HomePageComponent,// canActivate: [AuthGuard] ,
         children: [
             { path: 'cashRegister', component: ReceiptComponent },
             { path: 'history', component: HistoryComponent },

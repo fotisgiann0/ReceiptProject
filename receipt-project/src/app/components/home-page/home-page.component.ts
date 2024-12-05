@@ -21,7 +21,6 @@ import { Receipt } from '../../Interfaces/receiptInterface';
 import { InsertReceipt } from '../../Interfaces/insertReceiptInterface';
 import { insertReceiptLine } from '../../Interfaces/insertReceiptLineInterface';
 import { ReceiptService } from '../../services/Receipt/receipt-service';
-import { AuthGuard } from '../../services/Authentication/auth-guard.service';
 import { AuthService } from '../../services/Authentication/auth-service.service';
 
 @Component({

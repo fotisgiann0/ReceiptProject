@@ -7,7 +7,6 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { userIDService } from '../../services/Signals/userID';
 import { HttpClient } from '@angular/common/http';
-import { AuthGuard } from '../../services/Authentication/auth-guard.service';
 import { AuthService } from '../../services/Authentication/auth-service.service';
 
 @Component({
@@ -66,7 +65,7 @@ export class LoginUserComponent {
       
               // Store the token in localStorage
               if(localStorage) {
-                localStorage.setItem('authToken', token);
+                localStorage.setItem('token', token);
                 this.authService.currentUserTokenSignal.set(token);
         
                 // Set login state and navigate to the home page

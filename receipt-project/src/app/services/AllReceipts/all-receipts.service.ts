@@ -12,12 +12,12 @@ export class AllReceiptsService {
   constructor(private http: HttpClient) { }
 
   getReceipts(): Observable<FullReceipt[]>{
-    const token = localStorage.getItem('authToken');
+    // const token = localStorage.getItem('authToken');
 
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
+    // const headers = new HttpHeaders({
+    //   Authorization: `Bearer ${token}`,
+    // });
 
-    return this.http.get<FullReceipt[]>("https://localhost:7006/receipts/", {headers});
+    return this.http.get<FullReceipt[]>("https://localhost:7006/receipts/");
 }
 }

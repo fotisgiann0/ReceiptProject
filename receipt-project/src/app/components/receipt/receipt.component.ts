@@ -13,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 import { IdentityService } from '../../services/Identity/identity.service';
 import { userIDService } from '../../services/Signals/userID';
 import { lutimes } from 'fs';
-import { AuthGuard } from '../../services/Authentication/auth-guard.service';
+//import { AuthGuard } from '../../services/Authentication/auth-guard.service';
 import { AuthService } from '../../services/Authentication/auth-service.service';
 
 @Component({

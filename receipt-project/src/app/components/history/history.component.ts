@@ -9,7 +9,7 @@ import { ListingInputComponent } from "../listing-input/listing-input.component"
 import { AllReceiptsService } from '../../services/AllReceipts/all-receipts.service';
 import { map } from 'rxjs';
 import { Lines } from '../../Interfaces/linesInterface';
-import { AuthGuard } from '../../services/Authentication/auth-guard.service';
+//import { AuthGuard } from '../../services/Authentication/auth-guard.service';
 import { AuthService } from '../../services/Authentication/auth-service.service';
 
 @Component({

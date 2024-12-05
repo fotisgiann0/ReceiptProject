@@ -20,12 +20,7 @@ export class ProductsService {
     }
 
     getProducts(): Observable<Product[]>{
-        const token = localStorage.getItem('authToken');
-
-        const headers = new HttpHeaders({
-          Authorization: `Bearer ${token}`,
-        });
           
-        return this.http.get<Product[]>("https://localhost:7006/products/", { headers });
+        return this.http.get<Product[]>("https://localhost:7006/products/");
     }
 }

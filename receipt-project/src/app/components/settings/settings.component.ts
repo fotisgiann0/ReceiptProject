@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { ProductsService } from '../../services/Products/products';
 import { map } from 'rxjs/operators';
 import { ChangeStockService } from '../../services/Products/change-stock.service';
-import { AuthGuard } from '../../services/Authentication/auth-guard.service';
 import { AuthService } from '../../services/Authentication/auth-service.service';
 
 @Component({
